@@ -401,12 +401,13 @@ ollama serve  # Runs on http://localhost:11434
 
 ---
 
-## Next Immediate Actions
+## Next Immediate Actions (Phase 5)
 
-1. **Phase 2 Start:** PostgreSQL database + migrations
-2. **Quick Win:** Run V3 on full 2025-01-01 to 2026-03-12 period (establish fair baseline)
-3. **Database Integration:** Store all results in PostgreSQL for correlation analysis
-4. **Ollama Integration:** Implement OllamaClient wrapper with retry logic
+1. **Parameter Correlation Analysis** — SQL query to find which RSI/TP/SL values correlate with highest PF across backtest_runs
+2. **Multi-Pair Support** — Extend StrategyConfig + Orchestrator to accept GBPUSD, USDJPY alongside EURUSD
+3. **Walk-Forward Validation** — Split test period: train on 2025-01-01→2025-12-31, validate on 2026-01-01→2026-03-12
+4. **Champion Notification** — Log/alert when a strategy meets all 4 targets (PF>1.5, DD<15%, RF>3.0, WL>2.0)
+5. **CSV/Excel Export** — `scripts/export_results.py` dumps backtest_runs to Excel for manual review
 
 ---
 
