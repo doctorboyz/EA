@@ -1,0 +1,137 @@
+# Strategy Parameter Defaults and Search Space
+
+parameters:
+  # Risk Management (NEVER use fixed USD)
+  risk_percent:
+    default: 1.0
+    min: 0.5
+    max: 2.0
+    step: 0.1
+    description: "Risk per trade as % of account balance. V4 failed at 10% (FixedLossUSD)."
+    immutable: false
+
+  # Trade Management
+  stop_loss_pips:
+    default: 30
+    min: 20
+    max: 60
+    step: 5
+    description: "Stop loss in pips. Minimum 20 to avoid tight fills vs broker spread."
+    immutable: false
+
+  take_profit_pips:
+    default: 90
+    min: 60
+    max: 150
+    step: 10
+    description: "Take profit in pips. Must be >= 2x stop_loss_pips for R/R ratio."
+    immutable: false
+
+  breakeven_pips:
+    default: 15
+    min: 10
+    max: 30
+    step: 5
+    description: "Move SL to break-even after this many pips profit."
+    immutable: false
+
+  trailing_stop_pips:
+    default: 20
+    min: 10
+    max: 40
+    step: 5
+    description: "Trailing stop step size after TP-breakeven moves."
+    immutable: false
+
+  # Indicators
+  ema_period:
+    default: 200
+    min: 150
+    max: 200
+    step: 10
+    description: "EMA period for trend filter (H1 timeframe)."
+    immutable: false
+
+  rsi_period:
+    default: 14
+    min: 7
+    max: 21
+    step: 1
+    description: "RSI period for momentum/entry."
+    immutable: false
+
+  rsi_oversold:
+    default: 30.0
+    min: 20.0
+    max: 35.0
+    step: 1.0
+    description: "RSI oversold threshold. V4 used 35 (too loose)."
+    immutable: false
+
+  rsi_overbought:
+    default: 70.0
+    min: 65.0
+    max: 80.0
+    step: 1.0
+    description: "RSI overbought threshold. V4 used 65 (too loose)."
+    immutable: false
+
+  atr_period:
+    default: 14
+    min: 10
+    max: 21
+    step: 1
+    description: "ATR period for volatility filter."
+    immutable: false
+
+  atr_max_multiplier:
+    default: 1.5
+    min: 1.0
+    max: 3.0
+    step: 0.25
+    description: "Skip entry if ATR > this multiplier * 20-period average ATR."
+    immutable: false
+
+  # Entry precision
+  lookback_period:
+    default: 120
+    min: 48
+    max: 240
+    step: 24
+    description: "Bars lookback for 5-day structural high/low (120 bars ~ 5 days on H1)."
+    immutable: false
+
+  max_spread_pips:
+    default: 2.0
+    min: 1.0
+    max: 3.0
+    step: 0.5
+    description: "Skip entry if spread exceeds this (broker exploitation guard)."
+    immutable: false
+
+  # Optional advanced filters (disabled by default)
+  use_adx_filter:
+    default: false
+    description: "Add ADX trend strength filter (V4 added this, over-filtered)."
+    immutable: false
+
+  adx_min_strength:
+    default: 25
+    min: 15
+    max: 35
+    step: 5
+    description: "ADX minimum for trend strength (only if use_adx_filter=true)."
+    immutable: false
+
+  use_h4_filter:
+    default: false
+    description: "Add H4 timeframe confirmation (V4 added this, over-filtered)."
+    immutable: false
+
+  h4_ema_period:
+    default: 50
+    min: 30
+    max: 100
+    step: 10
+    description: "H4 EMA period for multi-timeframe filter (only if use_h4_filter=true)."
+    immutable: false

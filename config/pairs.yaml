@@ -1,0 +1,38 @@
+# Forex Pair Characteristics
+
+pairs:
+  EURUSD:
+    broker_leverage: 1:2000
+    typical_spread_pips: 1.0
+    typical_volatility_pips_h1: 40.0
+    correlation: 1.0  # Reference pair
+    trading_hours: "Asia+London+NY"
+    description: "Lowest spread, most liquid, best for testing. V3 baseline only tested EURUSD."
+    recommended: true
+
+  GBPUSD:
+    broker_leverage: 1:2000
+    typical_spread_pips: 1.5
+    typical_volatility_pips_h1: 60.0
+    correlation: 0.85  # vs EURUSD
+    trading_hours: "Asia+London+NY"
+    description: "Higher volatility, good for trend following. In original Aureus plan."
+    recommended: true
+
+  USDJPY:
+    broker_leverage: 1:2000
+    typical_spread_pips: 2.0
+    typical_volatility_pips_h1: 35.0
+    correlation: -0.65  # vs EURUSD (inverse)
+    trading_hours: "Asia+London+NY"
+    description: "Strong trend consistency, safe haven currency. In original Aureus plan."
+    recommended: true
+
+  XAUUSD:
+    broker_leverage: 1:2000
+    typical_spread_pips: 0.5  # Ultra-tight on Exness
+    typical_volatility_pips_h1: 200.0
+    correlation: -0.8
+    trading_hours: "24/5"
+    description: "Commodity, high volatility. Not in Phase 1 testing."
+    recommended: false

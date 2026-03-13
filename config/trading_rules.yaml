@@ -1,0 +1,132 @@
+# IMMUTABLE Hard Constraints for Strategy Generation
+# These rules are NEVER relaxed or overridden by LLM.
+# Enforcement: reject_and_retry, clamp, warn, inject, revert_to_champion
+
+hard_constraints:
+  - name: "no_fixed_usd_risk"
+    description: "BANNED: Never use FixedLossUSD or fixed dollar risk. V4 failure cause (10% on $100)."
+    mql5_banned_patterns:
+      - "FixedLossUSD"
+      - "fixed_loss"
+      - "loss_usd"
+    enforcement: "REJECT_AND_RETRY"
+    severity: "CRITICAL"
+
+  - name: "max_risk_per_trade"
+    description: "Risk percent per trade must not exceed 2.0%. V4 was 10%."
+    parameter: "risk_percent"
+    max_value: 2.0
+    enforcement: "CLAMP"
+    severity: "CRITICAL"
+
+  - name: "min_risk_per_trade"
+    description: "Risk percent per trade must be at least 0.5% to justify trade friction costs."
+    parameter: "risk_percent"
+    min_value: 0.5
+    enforcement: "CLAMP"
+    severity: "HIGH"
+
+  - name: "min_rr_ratio"
+    description: "Take Profit must be at least 2x Stop Loss for positive expectancy."
+    formula: "take_profit_pips / stop_loss_pips >= 2.0"
+    enforcement: "REJECT_AND_RETRY"
+    severity: "CRITICAL"
+
+  - name: "max_rr_ratio"
+    description: "Take Profit should not exceed 5x Stop Loss (diminishing returns on risk/reward)."
+    formula: "take_profit_pips / stop_loss_pips <= 5.0"
+    enforcement: "WARN"
+    severity: "LOW"
+
+  - name: "min_stop_loss"
+    description: "Stop loss must be at least 15 pips to avoid being eaten by broker spread on Exness."
+    parameter: "stop_loss_pips"
+    min_value: 15
+    enforcement: "REJECT_AND_RETRY"
+    severity: "CRITICAL"
+
+  - name: "max_stop_loss"
+    description: "Stop loss should not exceed 80 pips (too wide, kills edge)."
+    parameter: "stop_loss_pips"
+    max_value: 80
+    enforcement: "WARN"
+    severity: "LOW"
+
+  - name: "rsi_oversold_threshold"
+    description: "RSI oversold must be <= 35 (V4 used 35, too loose; V3 used 30)."
+    parameter: "rsi_oversold"
+    max_value: 35.0
+    enforcement: "CLAMP"
+    severity: "HIGH"
+
+  - name: "rsi_overbought_threshold"
+    description: "RSI overbought must be >= 65 (V4 used 65, too loose; V3 used 70)."
+    parameter: "rsi_overbought"
+    min_value: 65.0
+    enforcement: "CLAMP"
+    severity: "HIGH"
+
+  - name: "rsi_no_cross"
+    description: "RSI oversold must be < overbought (logical sanity)."
+    formula: "rsi_oversold < rsi_overbought"
+    enforcement: "REJECT_AND_RETRY"
+    severity: "CRITICAL"
+
+  - name: "ema_not_too_short"
+    description: "EMA period >= 150 (very short EMAs are noisy on H1)."
+    parameter: "ema_period"
+    min_value: 150
+    enforcement: "REJECT_AND_RETRY"
+    severity: "HIGH"
+
+  - name: "spread_management"
+    description: "Max spread filter must be reasonable (1-3 pips on Exness)."
+    parameter: "max_spread_pips"
+    min_value: 1.0
+    max_value: 5.0
+    enforcement: "CLAMP"
+    severity: "MEDIUM"
+
+  - name: "breakeven_less_than_tp"
+    description: "Breakeven trigger must be before take profit (logical sanity)."
+    formula: "breakeven_pips < take_profit_pips"
+    enforcement: "REJECT_AND_RETRY"
+    severity: "CRITICAL"
+
+  - name: "breakeven_above_spread"
+    description: "Breakeven distance should exceed 2x max spread to avoid being eaten by slippage."
+    formula: "breakeven_pips >= (max_spread_pips * 2)"
+    enforcement: "WARN"
+    severity: "MEDIUM"
+
+# Target Metrics (from AUREUS_INSPECTION_GUIDELINE.md)
+target_metrics:
+  profit_factor:
+    threshold: 1.5
+    description: "Gross Profit / Gross Loss must exceed 1.5"
+  max_drawdown_pct:
+    threshold: 15.0
+    description: "Max drawdown must be < 15%"
+  recovery_factor:
+    threshold: 3.0
+    description: "Net Profit / Max Drawdown must exceed 3.0"
+  win_loss_ratio:
+    threshold: 2.0
+    description: "Avg Win / Avg Loss must exceed 2.0"
+
+# Known V4 failure pattern (for analyzer reference)
+known_failure_patterns:
+  - name: "v4_over_leverage"
+    symptom: "fixed_usd_risk_detected"
+    cause: "FixedLossUSD = 10.0 on $100 account = 10% risk per trade"
+    solution: "Use percentage-based risk: lot_size = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"
+
+  - name: "v4_over_filtering"
+    symptom: "very_few_trades_poor_pf"
+    cause: "ADX + H4 filters combined = too restrictive, kept market regime out"
+    solution: "Either use ADX+H4 OR EMA200+RSI+ATR, not both"
+
+  - name: "v4_loose_rsi"
+    symptom: "entry_signals_too_frequent"
+    cause: "RSI thresholds at 35/65 (too loose) instead of 30/70"
+    solution: "Tighten RSI to 30/70 for stricter mean-reversion confirmation"

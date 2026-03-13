@@ -1,0 +1,50 @@
+# System Configuration - Aureus AI Trading Bot
+
+database:
+  url: "postgresql://postgres:password@localhost:5432/aureus"
+  pool_size: 5
+  echo: false  # Set to true for SQL debugging
+
+mt5:
+  mode: "wine"  # Options: wine, vm_shared_folder, remote
+  whisky_bottle: "/Users/mac/Library/Containers/com.isaacmarovitz.Whisky/Bottles/default"
+  experts_path: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/MQL5/Experts/Aureus/"
+  reports_path: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/tester/reports/"
+  mt5_exe: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe"
+  backtest_timeout_seconds: 600
+  report_poll_interval_seconds: 5
+  report_wait_timeout_seconds: 300
+
+ollama:
+  base_url: "http://localhost:11434"
+  timeout_seconds: 120
+  code_gen_model: "qwen2.5-coder:7b"
+  analysis_model: "llama3.2:3b"
+  retry_attempts: 3
+  retry_backoff_factor: 1.5
+
+logging:
+  level: "INFO"
+  format: "json"  # Options: json, text
+  log_dir: "./logs"
+
+project:
+  max_iterations: 50
+  symbol: "EURUSD"
+  timeframe: "H1"
+  initial_capital: 1000.0
+  risk_percent: 1.0
+  test_period_start: "2025-01-01"
+  test_period_end: "2026-03-12"
+
+paths:
+  root: "."
+  strategies: "./strategies"
+  baseline: "./strategies/baseline"
+  generated: "./strategies/generated"
+  validated: "./strategies/validated"
+  champion: "./strategies/champion"
+  archive: "./strategies/archive"
+  reports: "./reports"
+  templates: "./templates"
+  database_migrations: "./database/migrations"
