@@ -1,5 +1,6 @@
 """SQLAlchemy ORM models and session management for Aureus AI Trading Bot."""
 
+from contextlib import asynccontextmanager
 from datetime import datetime, date
 from typing import Optional, AsyncGenerator
 from sqlalchemy import (
@@ -175,7 +176,8 @@ def get_session_factory(db_url: Optional[str] = None) -> async_sessionmaker:
     return _session_factory
 
 
-async def get_session(db_url: Optional[str] = None) -> AsyncGenerator[AsyncSession, None]:
+@asynccontextmanager
+async def get_session(db_url: Optional[str] = None):
     """Async context manager yielding a database session."""
     factory = get_session_factory(db_url)
     async with factory() as session:
