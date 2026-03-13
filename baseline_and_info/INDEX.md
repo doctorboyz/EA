@@ -19,6 +19,15 @@
 
 ---
 
+### 📖 Strategy Documentation
+
+| File | Purpose |
+|---|---|
+| [AUREUS_STRATEGY_PLAN.md](AUREUS_STRATEGY_PLAN.md) | Aureus 3.0 strategy framework (EMA 200 trend filter, RSI momentum, ATR volatility) |
+| [AUREUS_INSPECTION_GUIDELINE.md](AUREUS_INSPECTION_GUIDELINE.md) | Backtest analysis guidelines and target metrics (PF > 1.5, DD < 15%, RF > 3.0, Win/Loss > 2.0) |
+
+---
+
 ## 📊 Backtest Reports & Charts
 
 ### V1 Reports
@@ -109,9 +118,9 @@ Margin Call → Account Blown (DD 101.71%)
 | **TASK_PROGRESS.md** | `/root/` | Master timeline |
 | **ORGANIZATION.md** | `/root/` | File structure guide |
 | **INDEX.md** | `/root/` | Master file index |
-| **AUREUS_STRATEGY_PLAN.md** | `/root/` | Trading logic |
-| **AUREUS_INSPECTION_GUIDELINE.md** | `/root/` | Backtest metrics |
 | **PHASE_1_SUMMARY.md** | `/root/` | Phase 1 results |
+| **AUREUS_STRATEGY_PLAN.md** | `baseline_and_info/` | Trading logic (reference) |
+| **AUREUS_INSPECTION_GUIDELINE.md** | `baseline_and_info/` | Backtest metrics (reference) |
 
 See `/root/ORGANIZATION.md` for complete project structure.
 
