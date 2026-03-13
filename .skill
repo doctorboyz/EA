@@ -1,0 +1,402 @@
+# Aureus AI Trading Bot - Skill Base Documentation
+
+**Version:** 1.0.0 (Phase 1 Complete)
+**Last Updated:** March 13, 2026
+**Status:** Production Ready (Phase 1), In Development (Phases 2-5)
+
+---
+
+## 🎯 Core Capabilities
+
+### 1. Strategy Configuration Management ✓
+- **Model:** Pydantic StrategyConfig with full validation
+- **Features:**
+  - Parameter bounds enforcement (all fields validated)
+  - Automatic constraint checking (min/max values)
+  - Cross-field validation (R/R ratio, RSI thresholds, etc.)
+  - Version tracking (major.minor.iteration)
+  - Change rationale tracking (why parameters changed)
+- **File:** `core/strategy_config.py`
+- **Status:** Complete, tested, production-ready
+
+### 2. Hard Constraint Enforcement ✓
+- **Model:** ConstraintValidator (IMMUTABLE rules)
+- **Features:**
+  - Bans `FixedLossUSD` pattern (V4 failure prevention)
+  - Enforces max 2% risk per trade
+  - Validates R/R ratio ≥ 2.0
+  - Checks stop loss ≥ 20 pips
+  - Validates RSI thresholds (oversold ≤ 35, overbought ≥ 65)
+  - Confirms breakeven < take profit
+  - EMA period ≥ 150 pips
+  - Spread management (1-3 pips)
+- **File:** `core/constraint_validator.py`
+- **Status:** Complete, tested, production-ready
+- **Testing:** test_constraint_validator.py confirms V4 bug is caught
+
+### 3. MT5 Report Parsing ✓
+- **Model:** ReportParser (Agent 3)
+- **Features:**
+  - Reads UTF-16 LE encoded HTML files (MT5 native)
+  - Extracts all backtest metrics:
+    - Edge metrics: Profit Factor, Net Profit, Gross Profit/Loss
+    - Survival metrics: Max Drawdown %, Recovery Factor
+    - Trade stats: Win rate, avg win/loss, consecutive losses
+    - Risk metrics: Sharpe Ratio, margin levels
+  - Returns Pydantic BacktestResult object
+  - Handles missing values gracefully
+  - Automatically evaluates against targets
+- **File:** `agents/report_parser.py`
+- **Status:** Complete, tested on real V3/V4 files, production-ready
+- **Testing:** test_report_parser.py parses real HTML successfully
+
+### 4. Metrics Calculation ✓
+- **Model:** MetricsCalculator (pure math, no LLM)
+- **Features:**
+  - Profit Factor = Gross Profit / Gross Loss
+  - Recovery Factor = Net Profit / Max Drawdown
+  - Win/Loss Ratio = Avg Win / Avg Loss
+  - Sharpe Ratio (with risk-free rate)
+  - Consecutive losses analysis
+  - Expected payoff calculation
+  - Max drawdown (% and USD)
+- **File:** `core/metrics_calculator.py`
+- **Status:** Complete, tested, production-ready
+
+### 5. Configuration Management ✓
+- **Model:** YAML-based configuration system
+- **Features:**
+  - System configuration (system.yaml): DB, MT5, Ollama paths
+  - Strategy defaults (strategy_defaults.yaml): parameter ranges with min/max/step
+  - Trading rules (trading_rules.yaml): hard constraints + target metrics
+  - Pairs configuration (pairs.yaml): EURUSD/GBPUSD/USDJPY characteristics
+- **File:** `config/*.yaml`
+- **Status:** Complete, tested, production-ready
+
+### 6. Data Models ✓
+- **Models:**
+  - StrategyConfig: All strategy parameters
+  - BacktestResult: Parsed metrics + target evaluation
+  - Weakness: Identified weaknesses in strategy
+  - AnalysisReport: LLM analysis output
+  - StrategyVersion: Version tracking
+- **File:** `core/strategy_config.py`
+- **Status:** Complete, tested, production-ready
+
+---
+
+## 🚀 Planned Capabilities (Phases 2-5)
+
+### Phase 2: Analysis Loop ⏳
+- **OllamaClient:** Wrapper for Ollama API with retry/timeout logic
+- **ResultAnalyzerAgent:** Identifies weaknesses via llama3.2:3b
+- **StrategyImproverAgent:** Proposes parameter changes (rule-based + LLM)
+- **Database:** PostgreSQL with JSONB config storage
+- **Alembic Migrations:** Schema management
+
+### Phase 3: Code Generation ⏳
+- **Jinja2 Templates:** MQL5 code generation
+  - base_ea.mq5.jinja2: Core EA structure
+  - risk_management.mql5.jinja2: Lot sizing (% risk)
+  - entry_logic.mql5.jinja2: Entry conditions
+  - exit_logic.mql5.jinja2: SL/TP/BE/Trail
+- **CodeGeneratorAgent:** Renders templates + LLM fills logic
+
+### Phase 4: Full Loop ⏳
+- **BacktestRunnerAgent:** Copies .mq5 to MT5, runs tester, waits for HTML
+- **OrchestratorAgent:** Main improvement loop (Generate → Test → Parse → Analyze → Improve)
+- **NewsFilterAgent:** ForexFactory calendar integration
+- **10+ iteration testing:** Unattended self-improvement
+
+### Phase 5: Optimization ⏳
+- **Parameter Correlation Analysis:** What param values correlate with high PF
+- **Multi-pair support:** GBPUSD, USDJPY testing
+- **Walk-forward validation:** Out-of-sample testing (Q1 2026)
+- **Champion system:** Automatic promotion + notifications
+- **Excel/CSV export:** Results reporting
+
+---
+
+## 🛠 Technical Stack
+
+### Languages & Frameworks
+- **Python 3.11+** (main implementation)
+- **MQL5** (Expert Advisor code, generated)
+- **Pydantic 2.0+** (data validation)
+- **SQLAlchemy 2.0+** (ORM)
+- **Jinja2** (template engine)
+
+### External Tools
+- **Ollama** (local LLMs)
+  - qwen2.5-coder:7b (code generation)
+  - llama3.2:3b (analysis)
+- **MetaTrader 5** (backtesting, via Wine on macOS)
+- **PostgreSQL** (results database)
+- **BeautifulSoup4** (HTML parsing)
+
+### Key Libraries
+```
+pydantic>=2.6.0           Data validation
+sqlalchemy[asyncio]>=2.0  ORM
+asyncpg>=0.29.0          Async PostgreSQL
+ollama>=0.3.0            LLM client
+beautifulsoup4>=4.12.0   HTML parsing
+jinja2>=3.1.0            Templates
+pyyaml>=6.0.1            Config files
+alembic>=1.13.0          DB migrations
+pandas>=2.2.0            Correlations
+structlog>=24.1.0        Logging
+```
+
+---
+
+## 📊 Data Flow Architecture
+
+```
+PHASE 1 (Complete):
+Config → StrategyConfig (Pydantic) → ConstraintValidator → Valid/Invalid
+HTML Report → ReportParser → BacktestResult → Metrics Calculated
+
+PHASE 2 (Planned):
+Database (PostgreSQL) ← Store all results
+ConstraintValidator ← Hard rules
+ResultAnalyzerAgent → Identify weaknesses (via llama3.2:3b)
+StrategyImproverAgent → Propose changes
+
+PHASE 3 (Planned):
+Templates (Jinja2) + Config → CodeGeneratorAgent (qwen2.5-coder:7b) → MQL5
+ConstraintValidator → Valid code only
+
+PHASE 4 (Planned):
+Orchestrator → [Generate → Validate → Write] → [MT5 Backtest] → [Parse → Analyze → Improve]
+Loop until: Strategy meets all 4 targets OR max iterations reached
+
+PHASE 5 (Planned):
+Database → Correlation Analysis
+Champion System → Best performers
+Multi-pair → EURUSD + GBPUSD + USDJPY
+Walk-forward → Out-of-sample validation
+Export → CSV/Excel reports
+```
+
+---
+
+## 🎯 Trading Domain Knowledge (Encoded)
+
+### Hard Constraints (NEVER Relaxed)
+1. **No FixedLossUSD** — V4 failure prevention (10% risk bug)
+2. **Max 2% Risk** — Per-trade risk limit (V4 was 10%)
+3. **Min 2:1 R/R** — Minimum reward-to-risk ratio
+4. **Min 20 pip SL** — Stop loss below this loses to spread
+5. **RSI Bounds** — oversold ≤ 35, overbought ≥ 65 (V4 used loose 35/65)
+6. **Breakeven < TP** — Logical sanity (breakeven triggered before profit target)
+7. **EMA ≥ 150** — Avoid H1 timeframe noise (short EMA = false signals)
+8. **Spread 1-3 pips** — Exness typical range for EURUSD
+
+### Target Metrics (From AUREUS_INSPECTION_GUIDELINE.md)
+- **Profit Factor > 1.5** (Gross Profit / Gross Loss)
+- **Max Drawdown < 15%** (Peak to trough decline)
+- **Recovery Factor > 3.0** (Net Profit / Max Drawdown)
+- **Win/Loss Ratio > 2.0** (Avg Win / Avg Loss)
+
+### V3 Baseline (Best Known State)
+- Profit Factor: 1.24 (meets 1 of 4 targets)
+- Max Drawdown: 8.92% (meets 1 of 4 targets)
+- Recovery Factor: 0.77 (failing)
+- Win/Loss Ratio: 0.87 (failing)
+- **Status:** Working baseline, not optimal
+
+### V4 Failure Case (Preventive Learning)
+- Profit Factor: 0.64 (losing)
+- Max Drawdown: 101.71% (account blown)
+- Root Cause: FixedLossUSD = 10.0 on $100 = 10% per trade
+- **Prevention:** ConstraintValidator bans this pattern forever
+
+---
+
+## 📁 Project Organization
+
+### Root (Single Source of Truth)
+- All active documentation (CLAUDE.md, README.md, etc.)
+- Configuration files (YAML)
+- Source code (core/, agents/, tests/)
+- No duplicates
+
+### baseline_and_info/ (Reference)
+- Original EA files (V1-V4, preserved)
+- Backtest reports (HTML, PNG, XLSX)
+- Historical data (39 backtest files)
+- INDEX.md (folder guide)
+
+---
+
+## 🧪 Testing & Validation
+
+### Unit Tests ✓
+- **test_constraint_validator.py:** Verifies V4 bug is caught
+- **test_report_parser.py:** Parses real V3/V4 HTML files
+- **test_metrics_calculator.py:** Math functions correct
+
+### Test Fixtures ✓
+- **V3-sample-report.html:** Real V3 data (PF 1.24, DD 8.92%)
+- **V4-sample-report.html:** Real V4 data (PF 0.64, DD 101.71%)
+- Both successfully parsed ✓
+
+### Smoke Tests ✓
+- Report parser on real files: PASS
+- Constraint validator on V3 config: PASS
+- Constraint validator on V4 config: FAIL (as expected)
+- ConstraintValidator catches FixedLossUSD: PASS
+
+---
+
+## 🔄 Improvement Loop (Phase 4+)
+
+```python
+loop_iteration = 0
+champion_pf = 0.0
+current_config = load_v3_baseline()
+
+while loop_iteration < max_iterations:
+    # 1. Generate
+    code = CodeGeneratorAgent.generate(current_config, hints)
+    ConstraintValidator.validate(code)  # Hard reject if fails
+    write_mq5(code)
+
+    # 2. Test
+    report_path = BacktestRunnerAgent.run(symbol, period, dates)
+
+    # 3. Parse
+    result = ReportParser.parse(report_path)
+    db.save(result)
+
+    # 4. Analyze
+    analysis = ResultAnalyzerAgent.analyze(result, history)
+
+    # 5. Promote champion
+    if result.meets_all_targets and result.pf > champion_pf:
+        save_champion(code)
+        champion_pf = result.pf
+        notify_user()
+
+    # 6. Improve
+    current_config = StrategyImproverAgent.improve(analysis, current_config)
+
+    loop_iteration += 1
+```
+
+**Success Criteria:** All 4 targets hit simultaneously
+- Profit Factor > 1.5
+- Max Drawdown < 15%
+- Recovery Factor > 3.0
+- Win/Loss Ratio > 2.0
+
+---
+
+## 📚 Documentation Structure
+
+| Document | Purpose | Audience |
+|---|---|---|
+| CLAUDE.md | System overview (400+ lines) | Developers |
+| QUICK_START.md | 30-minute orientation | New developers |
+| README.md | Setup & installation | Everyone |
+| ORGANIZATION.md | File structure guide | Developers |
+| TASK_PROGRESS.md | Master timeline (all phases) | Project managers |
+| INDEX.md | Master file index | Everyone |
+| PHASE_1_SUMMARY.md | Phase 1 results | Stakeholders |
+| AUREUS_STRATEGY_PLAN.md | Trading logic | Traders |
+| AUREUS_INSPECTION_GUIDELINE.md | Backtest metrics | Analysts |
+
+---
+
+## 🚀 How to Use This Skill Base
+
+### For Developers
+1. Read CLAUDE.md (full system knowledge)
+2. Read ORGANIZATION.md (file structure)
+3. Explore `core/` for models and validators
+4. Explore `agents/` for agent implementations
+5. Reference `config/` for YAML settings
+
+### For Implementation
+1. Follow TASK_PROGRESS.md timeline
+2. Check hard constraints in trading_rules.yaml
+3. Test new code against real V3/V4 data
+4. Verify ConstraintValidator catches violations
+
+### For Phase Development
+- **Phase 2:** See database schema in TASK_PROGRESS.md
+- **Phase 3:** See MQL5 template structure in ORGANIZATION.md
+- **Phase 4:** See improvement loop in this file
+- **Phase 5:** See optimization goals in TASK_PROGRESS.md
+
+---
+
+## 🔒 Safety & Guardrails
+
+### Immutable Rules
+- Hard constraints NEVER relaxed (enforced via ConstraintValidator)
+- Baseline EAs NEVER auto-modified (safe in baseline_and_info/)
+- Configuration NEVER bypasses validation (Pydantic enforced)
+- Test fixtures NEVER deleted (for regression testing)
+
+### Rollback Safety
+- All generated strategies in `strategies/generated/` (safe)
+- All historical results in PostgreSQL (safe)
+- All analysis reports in `reports/analysis/` (safe)
+- Original EAs in `baseline_and_info/` (safe)
+
+### Code Quality
+- Type hints on all functions (Pydantic + Python typing)
+- Comprehensive docstrings on all methods
+- Unit tests for critical functionality
+- Real-world test fixtures (not mock data)
+
+---
+
+## 📊 Phase Completion Status
+
+| Phase | Task | Status | Start | End |
+|---|---|---|---|---|
+| **1** | Foundation | ✓ DONE | Mar 13 | Mar 13 |
+| **2** | Database + Analysis | ⏳ Queued | TBD | TBD |
+| **3** | Code Generation | ⏳ Queued | TBD | TBD |
+| **4** | Full Loop | ⏳ Queued | TBD | TBD |
+| **5** | Optimization | ⏳ Queued | TBD | TBD |
+
+---
+
+## 🎯 Next Developer Briefing
+
+**For Phase 2 Start:**
+1. Understand PostgreSQL schema (see TASK_PROGRESS.md)
+2. Study OllamaClient patterns (HTTPx with retry)
+3. Review llama3.2:3b capabilities (for analysis)
+4. Plan Alembic migrations
+5. Start with OllamaClient wrapper
+
+**Critical Files to Know:**
+- `core/constraint_validator.py` (immutable rules)
+- `agents/report_parser.py` (proven pattern)
+- `config/trading_rules.yaml` (domain knowledge)
+- `core/strategy_config.py` (Pydantic patterns)
+
+---
+
+## 🎬 Ready for Phase 2
+
+✅ Phase 1 Foundation Complete
+✅ All core models implemented and tested
+✅ Hard constraints verified working
+✅ Report parser validated on real data
+✅ Documentation complete
+✅ Files organized with no duplicates
+✅ Skill base documented
+
+🚀 Ready to build database + LLM integration
+
+---
+
+**Status:** Production-Ready (Phase 1), Development Queue (Phases 2-5)
+**Last Reviewed:** March 13, 2026
+**Next Review:** After Phase 2 completion
