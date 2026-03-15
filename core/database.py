@@ -152,6 +152,60 @@ class NewsEvent(Base):
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 
 
+class ScheduledRun(Base):
+    """Scheduled/queued improvement loop runs (audit trail)."""
+
+    __tablename__ = "scheduled_runs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)    # EURUSD, GBPUSD, etc.
+    trigger_type: Mapped[str] = mapped_column(String(32), nullable=False)  # "cron", "manual", "news"
+    trigger_reason: Mapped[str] = mapped_column(String(256), default="")
+    iterations: Mapped[int] = mapped_column(Integer, nullable=False)   # Max iterations for this run
+    variant_count: Mapped[Optional[int]] = mapped_column(Integer)      # If batch generation
+    status: Mapped[str] = mapped_column(String(32), default="queued")  # queued, running, completed, failed
+    queued_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    started_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    completed_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    error_message: Mapped[Optional[str]] = mapped_column(Text)
+
+    # Results (populated after run completes)
+    final_champion_version: Mapped[Optional[str]] = mapped_column(String(64))
+    final_profit_factor: Mapped[Optional[float]] = mapped_column(Float)
+    final_max_drawdown_pct: Mapped[Optional[float]] = mapped_column(Float)
+
+
+class RunTrigger(Base):
+    """Audit trail for why each run was triggered."""
+
+    __tablename__ = "run_triggers"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("scheduled_runs.id"), nullable=False)
+    trigger_type: Mapped[str] = mapped_column(String(32), nullable=False)
+    trigger_reason: Mapped[str] = mapped_column(String(256), default="")
+    triggered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+
+
+class GlobalChampion(Base):
+    """Best-performing strategy per symbol (persistent across runs)."""
+
+    __tablename__ = "global_champions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), unique=True, nullable=False)  # EURUSD, GBPUSD
+    strategy_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    promoted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    file_path: Mapped[str] = mapped_column(Text, nullable=False)
+
+    # Backtest metrics
+    profit_factor: Mapped[float] = mapped_column(Float, nullable=False)
+    max_drawdown_pct: Mapped[float] = mapped_column(Float, nullable=False)
+    recovery_factor: Mapped[float] = mapped_column(Float, nullable=False)
+    avg_win_loss_ratio: Mapped[float] = mapped_column(Float, nullable=False)
+    meets_all_targets: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
 # ---------------------------------------------------------------------------
 # Session factory
 # ---------------------------------------------------------------------------

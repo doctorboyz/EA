@@ -1,0 +1,60 @@
+# Scheduler Configuration - APScheduler + Cron Jobs
+
+scheduler:
+  # Enable/disable scheduler daemon
+  enabled: false
+
+  # Default timezone for cron expressions (UTC or your local)
+  default_timezone: "UTC"
+
+  # Concurrency limits (prevent resource exhaustion)
+  max_concurrent_loops: 2          # Max 2 orchestrator instances running simultaneously
+  llm_call_queue_max_wait: 300     # Max 5 minutes to acquire LLM semaphore
+
+jobs:
+  # Daily batch generation: 5 variants for each symbol
+  - name: "daily_batch_generation"
+    type: "cron"
+    cron: "0 6 * * *"              # Every day at 6:00 AM UTC
+    enabled: true
+    params:
+      symbols:
+        - "EURUSD"
+        - "GBPUSD"
+        - "USDJPY"
+      variant_count: 5
+      iterations_per_symbol: 20
+
+  # Weekly deep run (more iterations for thorough exploration)
+  - name: "weekly_deep_optimization"
+    type: "cron"
+    cron: "0 8 * * 1"              # Every Monday at 8:00 AM UTC
+    enabled: false                 # Disabled by default; enable for weekly deep runs
+    params:
+      symbols:
+        - "EURUSD"
+      variant_count: 10
+      iterations_per_symbol: 50
+
+# Live trading configuration
+live_testing:
+  # First deploy to demo account for validation
+  demo_account: true
+
+  # Conditions for promoting demo → real
+  promotion_criteria:
+    profit_factor_min: 1.5         # Minimum profit factor
+    max_drawdown_max: 15.0         # Maximum drawdown %
+    recovery_factor_min: 3.0       # Minimum recovery factor
+    min_trades: 50                 # Minimum number of trades before promotion
+
+  # Collect all live performance data for learning
+  performance_tracking: true
+
+  # Demo duration (days) before considering promotion
+  demo_duration_days: 30
+
+# Logging
+logging:
+  scheduler_log_file: "./logs/scheduler.log"
+  level: "INFO"

@@ -30,6 +30,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.strategy_config import StrategyConfig, StrategyVersion, BacktestResult
 from core.database import Strategy, BacktestRun, Analysis, Improvement, get_session
 from core.constraint_validator import ConstraintViolation
+from core.champion_manager import ChampionManager
 from core.ollama_client import OllamaClient
 from agents.code_generator import CodeGeneratorAgent
 from agents.backtest_runner import BacktestRunnerAgent, BacktestSpec
@@ -105,11 +106,22 @@ class OrchestratorAgent:
         self.result_analyzer = ResultAnalyzerAgent(ollama=ollama)
         self.strategy_improver = StrategyImproverAgent(ollama=ollama)
 
+        # Champion manager (database-backed, per-symbol)
+        db_url = cfg.get('database', {}).get('url')
+        self.champion_manager = ChampionManager(db_url)
+
         # Tracking
-        self._champion_pf: float = 0.0
-        self._champion_version: Optional[str] = None
-        self._champion_path: Optional[str] = None
+        # Load global champion for this symbol (or start fresh if none exists)
+        global_champ = self.champion_manager.get_global_champion(self.symbol)
+        self._champion_pf: float = global_champ['profit_factor'] if global_champ else 0.0
+        self._champion_version: Optional[str] = global_champ['version'] if global_champ else None
+        self._champion_path: Optional[str] = global_champ['file_path'] if global_champ else None
         self._history: list[dict] = []
+
+        logger.info(
+            "Initialized OrchestratorAgent for %s: global champion PF=%.2f (v%s)",
+            self.symbol, self._champion_pf, self._champion_version or "none"
+        )
 
     # ------------------------------------------------------------------
     # Entry point (async for database I/O)
@@ -247,8 +259,14 @@ class OrchestratorAgent:
             db_strategy = await self._upsert_strategy(session, config, generated.code_hash, generated.file_path)
             db_run = await self._save_backtest_run(session, db_strategy.id, backtest_result, spec)
 
-        # === Step 5: Promote champion ===
-        if backtest_result.profit_factor > self._champion_pf:
+        # === Step 5: Promote champion (database-backed) ===
+        promoted = self.champion_manager.promote_if_better(backtest_result, self.symbol)
+        if promoted:
+            # Update session tracking
+            self._champion_pf = backtest_result.profit_factor
+            self._champion_version = str(config.version)
+            self._champion_path = generated.file_path
+            # Also write local champion file for backwards compatibility
             self._promote_champion(config, generated, backtest_result)
 
         # === Step 6: Analyze ===
