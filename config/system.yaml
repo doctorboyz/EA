@@ -1,25 +1,27 @@
 # System Configuration - Aureus AI Trading Bot
 
 database:
-  url: "postgresql://postgres:password@localhost:5432/aureus"
+  url: "postgresql://admin:88888888@localhost:5432/aureus"
   pool_size: 5
   echo: false  # Set to true for SQL debugging
 
 mt5:
   mode: "wine"  # Options: wine, vm_shared_folder, remote
-  whisky_bottle: "/Users/mac/Library/Containers/com.isaacmarovitz.Whisky/Bottles/default"
-  experts_path: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/MQL5/Experts/Aureus/"
-  reports_path: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/tester/reports/"
-  mt5_exe: "/Users/mac/.wine/drive_c/Program Files/MetaTrader 5/terminal64.exe"
+  wine_prefix: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5"
+  experts_path: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/MQL5/Experts/Aureus/"
+  reports_path: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/"
+  mt5_exe: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe"
+  wine_bin: "/Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64"
+  broker_server: "Exness-MT5Trial7"
   backtest_timeout_seconds: 600
   report_poll_interval_seconds: 5
-  report_wait_timeout_seconds: 300
+  report_wait_timeout_seconds: 900
 
 ollama:
   base_url: "http://localhost:11434"
   timeout_seconds: 120
-  code_gen_model: "qwen2.5-coder:7b"
-  analysis_model: "llama3.2:3b"
+  code_gen_model: "qwen2.5-coder:14b"
+  analysis_model: "qwen3.5:9b"
   retry_attempts: 3
   retry_backoff_factor: 1.5
 
@@ -30,12 +32,74 @@ logging:
 
 project:
   max_iterations: 50
-  symbol: "EURUSD"
+  symbol: "XAUUSD"          # Focus: XAUUSD (champion v0.3.1 PF=2.85 came from here)
   timeframe: "H1"
   initial_capital: 1000.0
-  risk_percent: 1.0
+  risk_percent: 0.5          # Conservative for XAUUSD high volatility (was 1.0)
   test_period_start: "2025-01-01"
   test_period_end: "2026-03-12"
+  default_framework: "XAUBreakout"  # Default framework for new XAUUSD runs
+
+bridge:
+  mode: "file_ipc"
+  request_dir: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/MQL5/Files/bridge/requests/"
+  response_dir: "/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/MQL5/Files/bridge/responses/"
+  timeout_seconds: 10
+  poll_interval_ms: 200
+  demo_magic_base: 88880000
+  real_magic_base: 77770000
+
+targets:
+  gate:
+    profit_factor: 1.0          # Minimum to save and iterate on
+    max_drawdown_pct: 40.0
+    recovery_factor: 0.5
+    win_loss_ratio: 1.0
+  champion:
+    profit_factor: 1.3          # Promote to champion, triggers walk-forward
+    max_drawdown_pct: 30.0
+    recovery_factor: 1.0
+    win_loss_ratio: 1.5
+  gold:
+    profit_factor: 1.8          # Target for production
+    max_drawdown_pct: 20.0
+    recovery_factor: 2.0
+    win_loss_ratio: 2.0
+
+forward_test:
+  enabled: true
+  poll_interval_minutes: 10
+  min_days_running: 5
+  min_trades: 10
+  min_profit_factor: 1.1
+  max_drawdown_pct: 20.0
+  auto_promote: true
+  symbols: ["XAUUSD"]           # XAUUSD only
+
+live_trading:
+  enabled: false          # MUST manually set true to activate real trading
+  poll_interval_minutes: 5
+  emergency_dd_threshold: 20.0
+  emergency_equity_drop_pct: 10.0
+  feed_back_to_improver: true
+  feed_back_threshold_pf: 1.2
+
+multi_symbol:
+  symbols: ["XAUUSD"]        # XAUUSD only
+  max_concurrent_backtests: 1
+
+walk_forward:
+  enabled: true              # Set false to skip (faster, less robust)
+  n_windows: 6               # Number of rolling windows
+  train_months: 3            # Months per training window
+  test_months: 2             # Months per test window (out-of-sample)
+  capital_ranges: [100, 500, 1000, 5000]   # Test scalability
+  timeframes: ["H1"]         # H1 only (already tested, saves time)
+  # Gate thresholds
+  #   min_pf_per_window: 0.8      (was 1.0 — easier gate)
+  #   min_windows_pass_pct: 0.67  4 of 6 windows must pass
+  #   max_pf_degradation: 0.45    (was 0.35 — more forgiving)
+  #   max_pf_std: 0.40            PF std deviation
 
 paths:
   root: "."

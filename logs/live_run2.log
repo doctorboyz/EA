@@ -1,0 +1,69 @@
+2026-03-15 12:40:29,891 [INFO] root: Logging to: logs/orchestrator_20260315_124029.log
+
+============================================================
+ AUREUS AI TRADING BOT — Improvement Loop
+============================================================
+
+=== Aureus AI Pre-flight Check ===
+
+2026-03-15 12:40:29,938 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+  [ OK ] Ollama: 3 models available
+         - nomic-embed-text:latest
+         - qwen2.5-coder:14b
+         - qwen3.5:9b
+  [ OK ] PostgreSQL connected
+
+✓ All checks passed
+
+
+Mode:          LIVE (MT5)
+Iterations:    1
+LLM:           ON (llama3.2:3b)
+
+2026-03-15 12:40:30,032 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 12:40:30,032 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 1
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE
+2026-03-15 12:40:30,033 [INFO] agents.orchestrator: 
+--- Iteration 1 / 1 ---
+2026-03-15 12:40:30,033 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 12:40:30,039 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:40:30,039 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5 (hash: 07492fde...)
+2026-03-15 12:40:30,039 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:40:30,039 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:40:30,040 [INFO] agents.backtest_runner: Copied EA to experts: AureusV3_AI_v0_3_0
+2026-03-15 12:40:30,040 [INFO] agents.backtest_runner: Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini
+2026-03-15 12:40:30,040 [INFO] agents.backtest_runner: Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini
+2026-03-15 12:40:30,043 [INFO] agents.backtest_runner: MT5 launched, waiting for report...
+2026-03-15 12:40:30,043 [INFO] agents.backtest_runner: Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)...
+2026-03-15 12:55:30,680 [ERROR] agents.orchestrator: Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 164, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 246, in _run_one_iteration
+    else:
+    
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 137, in run
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 286, in _wait_for_report
+    
+    
+    ...<3 lines>...
+        f"No new backtest report appeared in {self.reports_path} "
+        ^^^^^
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+
+============================================================
+ LOOP COMPLETE
+============================================================
+Iterations run:  0
+Elapsed:         900.7s
+Champion:        v0.3.0  PF=1.24
+All targets met: not yet

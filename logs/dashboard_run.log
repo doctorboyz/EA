@@ -1,0 +1,90 @@
+2026-03-15 12:24:23,627 [INFO] root: Logging to: logs/orchestrator_20260315_122423.log
+
+============================================================
+ AUREUS AI TRADING BOT — Improvement Loop
+============================================================
+
+=== Aureus AI Pre-flight Check ===
+
+2026-03-15 12:24:23,679 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+/Users/doctorboyz/EA/scripts/run_loop.py:103: RuntimeWarning: coroutine 'check_database.<locals>._test' was never awaited
+  return False
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+  [ OK ] Ollama: 3 models available
+         - nomic-embed-text:latest
+         - qwen2.5-coder:14b
+         - qwen3.5:9b
+  [FAIL] PostgreSQL: asyncio.run() cannot be called from a running event loop
+         Run: createdb aureus && alembic upgrade head
+
+✗ Some checks failed — fix before running loop
+
+Aborting: pre-flight checks failed. Use --dry-run to bypass.
+2026-03-15 13:32:12,646 [INFO] root: Logging to: logs/orchestrator_20260315_133212.log
+
+============================================================
+ AUREUS AI TRADING BOT — Improvement Loop
+============================================================
+
+=== Aureus AI Pre-flight Check ===
+
+2026-03-15 13:32:12,694 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+  [ OK ] Ollama: 3 models available
+         - nomic-embed-text:latest
+         - qwen2.5-coder:14b
+         - qwen3.5:9b
+  [ OK ] PostgreSQL connected
+
+✓ All checks passed
+
+
+Mode:          LIVE (MT5)
+Iterations:    10
+LLM:           ON (llama3.2:3b)
+
+2026-03-15 13:32:12,783 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 13:32:12,784 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 10
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE
+2026-03-15 13:32:12,784 [INFO] agents.orchestrator: 
+--- Iteration 1 / 10 ---
+2026-03-15 13:32:12,785 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 13:32:12,792 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5
+2026-03-15 13:32:12,792 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5 (hash: 07492fde...)
+2026-03-15 13:32:12,792 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5
+2026-03-15 13:32:12,792 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 13:32:12,792 [INFO] agents.backtest_runner: Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000
+2026-03-15 13:32:12,793 [INFO] agents.backtest_runner: Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini
+2026-03-15 13:32:12,793 [INFO] agents.backtest_runner: Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini
+2026-03-15 13:32:12,796 [INFO] agents.backtest_runner: MT5 launched, waiting for report...
+2026-03-15 13:32:12,796 [INFO] agents.backtest_runner: Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)...
+2026-03-15 13:47:13,421 [ERROR] agents.orchestrator: Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 173, in run
+    "  Mode: %s",
+    
+    current_config.version,
+    ^^^^^^^^^^^^^^^^^^^^^^^
+    self.max_iterations,
+    ^^^^^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 270, in _run_one_iteration
+    mq5_file_path=generated.file_path,
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 139, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 289, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+
+============================================================
+ LOOP COMPLETE
+============================================================
+Iterations run:  0
+Elapsed:         900.6s
+Champion:        v0.3.0  PF=1.24
+All targets met: not yet

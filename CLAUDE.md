@@ -4,9 +4,9 @@
 
 This is an **AI-powered agent orchestration system** that auto-generates, tests, and iteratively improves MQL5 Expert Advisors (trading bots) for MetaTrader 5.
 
-**Goal:** Reach target metrics (Profit Factor > 1.5, Max DD < 15%, Recovery Factor > 3.0, Win/Loss Ratio > 2.0) on EURUSD.
+**Goal:** Find XAUUSD champion with clean metrics (PF > 1.3 at Champion tier, walk-forward validated).
 
-**Current State:** Phase 1 Foundation - core models, validators, and report parser implemented. Ready to parse existing backtest HTML reports into database.
+**Current State:** Phase 5 complete - Full CrewAI integration, 8-framework XAUUSD rotation, tiered targets (Gate/Champion/Gold), phase-aware dashboard, automated improvement loop ready for extended hunt.
 
 ---
 
@@ -42,30 +42,103 @@ lot_size = (balance * risk_percent / 100) / (stop_loss_pips * 10 * tick_value)
 
 **V3 is the baseline to beat.** It works on Jan-Mar 2026 (PF 1.24, DD 8.92%) but hasn't been tested on the full 14-month period like V4.
 
+### Tiered Target System (XAUUSD-Specific)
+
+| Metric | Gate | Champion | Gold |
+|---|---|---|---|
+| Profit Factor | > 1.0 | > 1.3 ✓ | > 1.8 |
+| Max Drawdown % | < 40% | < 30% | < 20% |
+| Recovery Factor | > 0.5 | > 1.0 | > 2.0 |
+| Win/Loss Ratio | > 1.0 | > 1.5 | > 2.0 |
+
+**Phase Gates:**
+- **Hunt** (Phase 1): Run iterations, use 8 XAUUSD frameworks (80% exploit / 20% explore via ExperienceDB)
+- **Walk-Forward** (Phase 2): Triggered when PF ≥ 1.3 (Champion tier). Needs 4/6 windows pass (PF ≥ 0.8 per window, max degradation 0.45)
+- **Forward Test** (Phase 3): Triggered after WF passes. Deploy to demo 5+ days, 10+ trades, PF ≥ 1.1, DD ≤ 20%
+- **Live** (Phase 4): Manual trigger, auto emergency-stop at DD = 20%
+
+---
+
+## Multi-Agent Orchestration Framework: CrewAI
+
+**Orchestration split into two layers:**
+
+1. **Deterministic Layer** (pure Python, no LLM):
+   - BacktestRunner (MT5 subprocess)
+   - ReportParser (BeautifulSoup, UTF-16 LE encoding)
+   - ConstraintValidator (hard rules, V4 bug detection)
+
+2. **Intelligence Layer** (CrewAI agents via Ollama):
+   - CodeGenerator Agent → Renders MQL5 from StrategyConfig
+   - ResultAnalyzer Agent → Identifies weaknesses
+   - StrategyImprover Agent → Proposes parameter changes
+
+**CrewAI Integration** (`agents/aureus_crew.py`):
+
+```python
+from crewai import Agent, Task, Crew, Process
+
+crew = AureusCrewAI(config)
+result = crew.analyze_and_improve(backtest_result, market_regime)
+# Internally runs: crew.kickoff(inputs={...})
+```
+
+### The 5-Step Improvement Loop
+
+```
+[1] CodeGenerator.generate(config, framework)
+     ↓
+[2] BacktestRunner.run() → MT5 backtest
+     ↓
+[3] ReportParser.parse() → BacktestResult
+     ↓
+[4-5] AureusCrewAI.analyze_and_improve()
+      → crew.kickoff() with 3 agents
+      → returns improved config
+     ↓
+[Loop]
+```
+
+### Installation
+
+```bash
+pip install crewai crewai-tools langchain-community
+```
+
 ---
 
 ## Architecture at a Glance
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    ORCHESTRATOR (run_loop.py)              │
-│  Main loop: Generate → Test → Parse → Analyze → Improve   │
-└─────────────────────────────────────────────────────────────┘
-           ↓
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Agent 1: CodeGenerator      → Agent 2: BacktestRunner → Agent 3: Parser │
-│ (qwen2.5-coder:7b)          │ (subprocess/Wine)       │ (BeautifulSoup)  │
-│ Render MQL5 templates        │ Runs MT5 Strategy       │ Parses UTF-16    │
-│                              │ Tester                  │ HTML reports     │
-└──────────────────────────────────────────────────────────────────────────┘
-           ↓
-┌──────────────────────────────────────────────────────────────────────────┐
-│ Agent 4: ResultAnalyzer     → Agent 5: StrategyImprover → Back to Gen   │
-│ (llama3.2:3b)               │ (Rule-based + LLM)                         │
-│ Identifies weaknesses       │ Proposes parameter changes                 │
-└──────────────────────────────────────────────────────────────────────────┘
-           ↓
-        PostgreSQL Database (stores all history for correlation analysis)
+XAUUSD CHAMPION HUNTER — 4 PHASES
+═══════════════════════════════════════════════════════════════════
+
+[PHASE 1: HUNT]  PF iteration until ≥ 1.3
+                 ↓
+              [PHASE 2: WALK-FORWARD]  4/6 windows pass
+                 ↓
+              [PHASE 3: FORWARD TEST]  5+ days live demo
+                 ↓
+              [PHASE 4: LIVE]  Real account (manual enable)
+
+DETERMINISTIC LAYER
+───────────────────────────────────────────────────────────────
+[CodeGenerator]  [BacktestRunner]  [ReportParser]  [ConstraintValidator]
+(Jinja2)         (Wine/MT5)        (BeautifulSoup) (Hard rules)
+   ↓                ↓                  ↓                ↓
+v0.X.Y.Z.mq5   HTML report         BacktestResult   ✓ Valid / ✗ Reject
+
+INTELLIGENCE LAYER (CrewAI)
+───────────────────────────────────────────────────────────────
+[CodeGenerator Agent]  →  [ResultAnalyzer Agent]  →  [StrategyImprover Agent]
+(qwen2.5-coder:14b)      (qwen3.5:9b)                (qwen3.5:9b)
+Generate MQL5            Identify weaknesses        Propose changes
+   ↑                                                       ↓
+   ←──── crew.kickoff() ────────────────────────────────←
+
+DATABASE
+───────────────────────────────────────────────────────────────
+PostgreSQL: strategies, backtest_runs, analyses, walk_forward_runs, experiences
 ```
 
 ---
@@ -74,66 +147,36 @@ lot_size = (balance * risk_percent / 100) / (stop_loss_pips * 10 * tick_value)
 
 ```
 aureus-ai/
+├── dashboard.py                 # Single-page Streamlit UI (4 sections)
 ├── config/
-│   ├── system.yaml              # MT5 paths, Ollama URL, DB connection
+│   ├── system.yaml              # MT5, Ollama, DB, tiered targets, walk-forward
 │   ├── strategy_defaults.yaml   # Parameter ranges (min/max/default/step)
-│   ├── trading_rules.yaml       # IMMUTABLE hard constraints
-│   └── pairs.yaml               # EURUSD/GBPUSD/USDJPY characteristics
+│   └── trading_rules.yaml       # IMMUTABLE hard constraints
 │
 ├── core/
-│   ├── strategy_config.py       # Pydantic models (StrategyConfig, BacktestResult, etc.)
+│   ├── strategy_config.py       # Pydantic models + tiered targets (Gate/Champion/Gold)
 │   ├── constraint_validator.py  # Hard rules enforcement (NEVER relax)
-│   ├── metrics_calculator.py    # Pure math: PF, DD, RF, Sharpe, etc.
+│   ├── champion_manager.py      # DB-backed per-symbol champion tracking
+│   ├── walk_forward.py          # Walk-forward validator (4/6 windows, PF ≥ 0.8)
 │   ├── database.py              # SQLAlchemy ORM (PostgreSQL)
 │   ├── ollama_client.py         # Ollama API wrapper (retry, timeout)
-│   └── mt5_bridge.py            # MT5 subprocess/Wine path translator
+│   └── experience_db.py         # ExperienceDB (80/20 exploit/explore)
 │
 ├── agents/
-│   ├── orchestrator.py          # Main improvement loop
-│   ├── code_generator.py        # Agent 1: MQL5 via Ollama qwen2.5-coder:7b
+│   ├── orchestrator.py          # Main XAUUSD hunt loop (phase tracking)
+│   ├── aureus_crew.py           # CrewAI crew (3 agents, 4 tools)
+│   ├── code_generator.py        # Agent 1: MQL5 via qwen2.5-coder:14b
 │   ├── backtest_runner.py       # Agent 2: Runs MT5 Strategy Tester
 │   ├── report_parser.py         # Agent 3: Parses HTML (UTF-16 LE)
-│   ├── result_analyzer.py       # Agent 4: Weaknesses via llama3.2:3b
+│   ├── result_analyzer.py       # Agent 4: Weaknesses (Champion-tier targets)
 │   ├── strategy_improver.py     # Agent 5: Rule-based + LLM improvements
-│   └── news_filter.py           # Agent 6: ForexFactory calendar
-│
-├── templates/
-│   ├── mql5/
-│   │   ├── base_ea.mq5.jinja2
-│   │   ├── risk_management.mql5.jinja2  # % risk lot sizing
-│   │   ├── entry_logic.mql5.jinja2
-│   │   └── exit_logic.mql5.jinja2
-│   └── prompts/
-│       ├── code_gen_system.txt
-│       ├── analysis_system.txt
-│       └── improve_system.txt
-│
-├── strategies/
-│   ├── baseline/                # V1, V2, V3, V4 originals (never modified)
-│   ├── generated/               # LLM output .mq5 files
-│   ├── validated/               # Passed ConstraintValidator
-│   ├── champion/                # Current best performer
-│   └── archive/                 # All historical (timestamped)
-│
-├── reports/
-│   ├── raw/                     # MT5 HTML reports
-│   ├── parsed/                  # JSON extracted metrics
-│   └── analysis/                # LLM analysis text
-│
-├── database/
-│   └── migrations/              # Alembic migration files
-│
-├── tests/
-│   ├── test_report_parser.py    # Parse V3/V4 HTML fixtures
-│   ├── test_constraint_validator.py  # Verify hard rules work
-│   ├── test_metrics_calculator.py
-│   └── fixtures/
-│       ├── V3-sample-report.html  # Best performer (PF 1.24)
-│       └── V4-sample-report.html  # Catastrophic failure (DD 101.71%)
+│   ├── news_filter.py           # Agent 6: ForexFactory calendar
+│   ├── market_regime_detector.py # Regime classification (Trend/Range/Volatile)
+│   ├── forward_test_manager.py  # Forward test deployment
+│   └── live_trade_agent.py      # Live trade monitoring + safety
 │
 ├── scripts/
-│   ├── run_loop.py              # Entry point: starts improvement loop
-│   ├── run_single_backtest.py   # Test one strategy manually
+│   ├── run_multi.py             # Entry point: XAUUSD hunt (all modes)
 │   ├── check_ollama.py          # Health check
 │   └── export_results.py        # Export to CSV/Excel
 │
@@ -191,55 +234,89 @@ aureus-ai/
 
 ## How to Use This System
 
-### 1. Parse Existing Reports (Phase 1 Complete)
+### Quick Start
 
 ```bash
-# Test report parser on real files
-python -m pytest tests/test_report_parser.py -v
+cd /Users/doctorboyz/EA
+source venv/bin/activate
 
-# Quick smoke test
-python tests/test_report_parser.py
+# 1. Pre-flight
+ollama serve                          # (separate terminal)
+python scripts/check_ollama.py
+python -m pytest tests/ -v
+
+# 2. Start dashboard (separate terminal)
+streamlit run dashboard.py            # → http://localhost:8501
+
+# 3. Start hunt (click a button in dashboard, or run below)
+python scripts/run_multi.py --symbols XAUUSD --iterations 20
 ```
 
-Expected output:
-```
-Testing V3 report parsing...
-✓ V3 parsed: PF=1.24, DD=8.92%
-
-Testing V4 report parsing...
-✓ V4 parsed: PF=0.64, DD=101.71%
-```
-
-### 2. Validate Constraints
+### All Hunt Commands
 
 ```bash
-python -m pytest tests/test_constraint_validator.py -v
+# Always run first:
+cd /Users/doctorboyz/EA && source venv/bin/activate
+
+# ⚡ Quick Test (5 iterations, ~10 min)
+python scripts/run_multi.py --symbols XAUUSD --iterations 5
+
+# 🔍 Normal Hunt (20 iterations, ~30-60 min)
+python scripts/run_multi.py --symbols XAUUSD --iterations 20
+
+# 🏃 Long Hunt (50 iterations, ~1.5-3 hours)
+python scripts/run_multi.py --symbols XAUUSD --iterations 50
+
+# 🔄 Continuous (runs forever, restarts every 5 min)
+python scripts/run_multi.py --symbols XAUUSD --continuous --iterations 20 --restart-delay 300
+
+# 👑 Until Champion (stops when PF ≥ 1.3, max 48 hours)
+python scripts/run_multi.py --symbols XAUUSD --until-champion --iterations 100 --max-hours 48
 ```
 
-### 3. Database Setup (Phase 2)
-
-```sql
--- Create database
-createdb aureus
-
--- Run migrations
-alembic upgrade head
-```
-
-### 4. Run Improvement Loop (Phase 4+)
+### Stop Commands
 
 ```bash
-python scripts/run_loop.py \
-  --iterations 50 \
-  --symbol EURUSD \
-  --capital 1000
+# Normal stop
+kill $(cat logs/run_multi.pid)
+
+# Force stop
+pkill -9 -f "run_multi.py"
+
+# Disable auto-start daemon
+launchctl unload ~/Library/LaunchAgents/com.aureus.trading.plist
+
+# Enable auto-start daemon
+launchctl load ~/Library/LaunchAgents/com.aureus.trading.plist
+
+# Check status
+ps aux | grep run_multi | grep -v grep       # Running processes
+cat logs/system_status.json | python -m json.tool  # Phase status
+launchctl list | grep aureus                  # Daemon status
+tail -f logs/orchestrator.log                 # Live logs
 ```
 
-### 5. Export Results
+### Cleanup Commands
 
 ```bash
-python scripts/export_results.py --output results.csv
+# Kill all + clean status
+pkill -9 -f "run_multi.py"
+rm -f logs/run_multi.pid logs/system_status.json
+find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null
 ```
+
+### 8 XAUUSD Frameworks (Auto-Rotated)
+
+| Framework | Strength | ExperienceDB Picks |
+|---|---|---|
+| XAUBreakout | ATR-channel for gold volatility | Primary (80% exploit) |
+| TrendFollowing | EMA-based, proven PF=2.85 | Primary (80% exploit) |
+| Breakout | Generic breakout | Explore (20%) |
+| MeanReversion | RSI mean reversion | Explore (20%) |
+| SniperEntry | Low-frequency, high-precision | Explore (20%) |
+| CandlePattern | Pattern recognition | Explore (20%) |
+| IchimokuCloud | Cloud + trend confirmation | Explore (20%) |
+| GridTrading | For choppy/ranging markets | Explore (20%) |
 
 ---
 
@@ -247,45 +324,65 @@ python scripts/export_results.py --output results.csv
 
 ### [config/system.yaml](config/system.yaml)
 
-- **database.url** — PostgreSQL connection string
-- **mt5.mode** — "wine" (macOS Whisky) | "vm_shared_folder" | "remote"
-- **ollama.base_url** — Usually `http://localhost:11434`
-- **ollama.code_gen_model** — `qwen2.5-coder:7b` for MQL5 generation
-- **ollama.analysis_model** — `llama3.2:3b` for results analysis
+**Key sections for XAUUSD hunt:**
 
-### [config/strategy_defaults.yaml](config/strategy_defaults.yaml)
-
-Parameter search space. Each parameter has:
-- **default** — starting value
-- **min, max, step** — bounds and granularity
-- **immutable** — can LLM change it? (usually false)
-
-V3 defaults:
 ```yaml
-risk_percent: 1.0        # 1% per trade (not 10% like V4!)
-ema_period: 200          # Trend filter
-rsi_oversold: 30.0       # Mean reversion entry
-rsi_overbought: 70.0
-stop_loss_pips: 30
-take_profit_pips: 90     # 3:1 R/R ratio
+project:
+  symbol: "XAUUSD"
+  risk_percent: 0.5         # Conservative for high volatility
+
+targets:
+  gate:
+    profit_factor: 1.0      # Minimum to save iteration
+  champion:
+    profit_factor: 1.3      # Triggers walk-forward
+  gold:
+    profit_factor: 1.8      # Production target
+
+forward_test:
+  symbols: ["XAUUSD"]       # Single symbol only
+  min_profit_factor: 1.1    # Demo account minimum
+  max_drawdown_pct: 20.0    # Forward test limit
+
+walk_forward:
+  enabled: true
+  n_windows: 6              # 6 rolling windows
+  # MIN_PF_PER_WINDOW = 0.8 (easier: was 1.0)
+  # MIN_WINDOWS_PASS_PCT = 0.67 (4 of 6: was 0.70)
+  # MAX_PF_DEGRADATION = 0.45 (was 0.35)
+
+multi_symbol:
+  symbols: ["XAUUSD"]       # XAUUSD only
 ```
+
+### [core/strategy_config.py](core/strategy_config.py)
+
+**New tiered target flags** in `BacktestResult`:
+
+```python
+result.meets_gate      # PF > 1.0, DD < 40%, RF > 0.5, W/L > 1.0
+result.meets_champion  # PF > 1.3, DD < 30%, RF > 1.0, W/L > 1.5
+result.meets_gold      # PF > 1.8, DD < 20%, RF > 2.0, W/L > 2.0
+```
+
+Call `result.check_targets(tier_config)` after parsing.
 
 ### [config/trading_rules.yaml](config/trading_rules.yaml)
 
-**IMMUTABLE constraints.** Examples:
+**IMMUTABLE constraints:**
 
 ```yaml
 - name: "no_fixed_usd_risk"
   mql5_banned_patterns:
-    - "FixedLossUSD"      # V4 failure
-  enforcement: "REJECT_AND_RETRY"
+    - "FixedLossUSD"      # V4 failure — always banned
   severity: "CRITICAL"
 
 - name: "min_rr_ratio"
   formula: "take_profit_pips / stop_loss_pips >= 2.0"
-  enforcement: "REJECT_AND_RETRY"
   severity: "CRITICAL"
 ```
+
+All hard rules are encoded in `core/constraint_validator.py` — they are **never relaxed**.
 
 ---
 
@@ -348,8 +445,8 @@ Example: If ADX filtering would help, enable it in `config/strategy_defaults.yam
 
 | Model | RAM | Purpose |
 |---|---|---|
-| `qwen2.5-coder:7b` | ~5GB | Generate MQL5 code (C++ syntax awareness) |
-| `llama3.2:3b` | ~2.5GB | Analyze results, propose improvements |
+| `qwen2.5-coder:14b` | ~9GB | Generate MQL5 code (C++ syntax awareness) |
+| `qwen3.5:9b` | ~6GB | Analyze results, propose improvements |
 
 **Setup:**
 ```bash
@@ -400,14 +497,28 @@ python -m pytest tests/test_constraint_validator.py::TestConstraintValidator::te
 
 ---
 
-## Next Steps (Phases 2-5)
+## What to do Next
 
-- **Phase 2:** Database + Ollama client + ResultAnalyzer
-- **Phase 3:** Jinja2 templates + CodeGenerator
-- **Phase 4:** Orchestrator + NewsFilter + full loop
-- **Phase 5:** Multi-pair testing, walk-forward validation
+**Immediate:**
+1. Run extended hunt: `python scripts/run_multi.py --symbols XAUUSD --iterations 100 --continuous`
+2. Monitor dashboard: `streamlit run dashboard.py`
+3. Wait for Champion tier result (PF ≥ 1.3) to trigger walk-forward validation
 
-See `/Users/mac/.claude/plans/partitioned-gliding-anchor.md` for full implementation plan.
+**If hunt succeeds (PF ≥ 1.3):**
+1. Walk-forward validation auto-triggers, needs 4/6 windows (PF ≥ 0.8 per window)
+2. If WF passes, forward test on demo account for 5+ days
+3. If forward test passes (PF ≥ 1.1, DD ≤ 20%), ready for live trading
+
+**Troubleshooting:**
+- If no improvements after 50 iterations: check framework diversity, review failed constraints
+- If walk-forward fails: strategy is curve-fitted, loop continues trying other configs
+- If CrewAI slow: ensure Ollama models are loaded (`ollama ps`)
+
+**Research improvements:**
+- Add news filter to avoid high-impact events
+- Test different capital levels (scalability)
+- Analyze what frameworks perform best in current regime
+- Consider parameter cooling schedule (smaller steps as hunt progresses)
 
 ---
 

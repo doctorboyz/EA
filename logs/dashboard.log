@@ -1,0 +1,592 @@
+
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+  Network URL: http://192.168.1.125:8501
+  External URL: http://58.136.7.7:8501
+
+  For better performance, install the Watchdog module:
+
+  $ xcode-select --install
+  $ pip install watchdog
+            
+2026-03-15 21:47:25.930 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 21:47:26.508 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:47:28.587 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+NewsFilter: bridge failed and no stale cache — no blocking this session
+2026-03-15 21:47:39.024 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:47:56.932 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:51:57.884 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:52:03.122 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:52:05.576 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:52:07.059 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:52:09.262 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:52:14.753 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:53:14.669 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+2026-03-15 21:53:29.718 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 21:53:51.559 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 21:53:51.713 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:53:51.786 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:53:51.814 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:54:29.957 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 21:54:30.140 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:54:32.504 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 21:54:32.533 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:54:32.590 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 21:54:32.624 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:11:57.751 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 22:11:58.020 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:12:01.368 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 22:12:01.399 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:12:01.464 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:12:01.502 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:15:46.853 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 22:15:47.019 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:15:49.565 `label` got an empty value. This is discouraged for accessibility reasons and may be disallowed in the future by raising an exception. Please provide a non-empty label and hide it with label_visibility if needed.
+Stack (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 379, in _run_script_thread
+    self._run_script(request.rerun_data)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 705, in _run_script
+    ) = exec_func_with_error_handling(code_to_exec, ctx)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/exec_code.py", line 129, in exec_func_with_error_handling
+    result = func()
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 689, in code_to_exec
+    exec(code, module.__dict__)  # noqa: S102
+  File "/Users/doctorboyz/EA/dashboard.py", line 456, in <module>
+    page_label = st.radio("", list(PAGE_MAP.keys()), label_visibility="collapsed")
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/runtime/metrics_util.py", line 532, in wrapped_func
+    result = non_optional_func(*args, **kwargs)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 402, in radio
+    return self._radio(
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/widgets/radio.py", line 449, in _radio
+    maybe_raise_label_warnings(label, label_visibility)
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/streamlit/elements/lib/policies.py", line 187, in maybe_raise_label_warnings
+    _LOGGER.warning(
+/Users/doctorboyz/EA/dashboard.py:166: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  return pd.read_sql(sql, conn, params=params)
+2026-03-15 22:15:49.608 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:15:49.666 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.
+2026-03-15 22:15:49.698 Please replace `use_container_width` with `width`.
+
+`use_container_width` will be removed after 2025-12-31.
+
+For `use_container_width=True`, use `width='stretch'`. For `use_container_width=False`, use `width='content'`.

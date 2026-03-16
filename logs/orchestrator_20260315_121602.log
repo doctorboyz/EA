@@ -1,0 +1,51 @@
+2026-03-15 12:16:02,279 [INFO] root: Logging to: logs/orchestrator_20260315_121602.log
+2026-03-15 12:16:02,363 [INFO] core.champion_manager: No global champion found for EURUSD
+2026-03-15 12:16:02,364 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=0.00 (vnone)
+2026-03-15 12:16:02,364 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 2
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: DRY RUN
+2026-03-15 12:16:02,364 [INFO] agents.orchestrator: 
+--- Iteration 1 / 2 ---
+2026-03-15 12:16:02,364 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 12:16:02,371 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:16:02,371 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5 (hash: 07492fde...)
+2026-03-15 12:16:02,371 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:16:02,371 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:16:02,371 [INFO] agents.backtest_runner: DRY RUN: using fixture /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html
+2026-03-15 12:16:02,371 [INFO] agents.orchestrator:   Report: /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html (0.0s)
+2026-03-15 12:16:02,371 [INFO] agents.orchestrator: [3/5] Parsing report...
+2026-03-15 12:16:02,410 [INFO] agents.orchestrator:   Metrics: ✗PF=1.24(tgt>1.5)  ✓DD=9.33(tgt<15.0)  ✗RF=0.77(tgt>3.0)  ✗W/L=1.63(tgt>2.0) | Trades=74
+2026-03-15 12:16:02,490 [INFO] core.champion_manager: First champion for EURUSD: 0.3.0 (PF=1.24)
+2026-03-15 12:16:02,499 [INFO] agents.orchestrator: ↑ New champion v0.3.0: PF 1.24→1.24 (DD 9.3% RF 0.77 WL 1.63)
+2026-03-15 12:16:02,499 [INFO] agents.orchestrator: [4/5] Analyzing result...
+2026-03-15 12:17:07,651 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 12:17:07,659 [WARNING] agents.result_analyzer: Ollama unavailable, using rule-based analysis only: Ollama returned non-JSON response: ...
+2026-03-15 12:17:07,698 [INFO] agents.orchestrator:   Summary: Rule-based analysis: 3 metric(s) failing. LLM analysis unavailable.
+2026-03-15 12:17:07,698 [INFO] agents.orchestrator: [5/5] Generating improved config...
+2026-03-15 12:17:44,885 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 12:17:44,892 [WARNING] agents.strategy_improver: LLM improvement step skipped: Ollama returned non-JSON response: ...
+2026-03-15 12:17:44,895 [INFO] agents.strategy_improver: Improved config v0.3.0 → v0.3.1: 2 changes
+2026-03-15 12:17:44,895 [INFO] agents.orchestrator:   v0.3.0 → v0.3.1  changes: ['take_profit_pips', 'breakeven_pips']
+2026-03-15 12:17:44,896 [INFO] agents.orchestrator: 
+--- Iteration 2 / 2 ---
+2026-03-15 12:17:44,896 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.1...
+2026-03-15 12:17:44,900 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_1.mq5
+2026-03-15 12:17:44,901 [INFO] agents.code_generator: Generated valid EA v0.3.1 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_1.mq5 (hash: f0a0cae5...)
+2026-03-15 12:17:44,901 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_1.mq5
+2026-03-15 12:17:44,902 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:17:44,902 [INFO] agents.backtest_runner: DRY RUN: using fixture /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html
+2026-03-15 12:17:44,902 [INFO] agents.orchestrator:   Report: /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html (0.0s)
+2026-03-15 12:17:44,902 [INFO] agents.orchestrator: [3/5] Parsing report...
+2026-03-15 12:17:44,966 [INFO] agents.orchestrator:   Metrics: ✗PF=1.24(tgt>1.5)  ✓DD=9.33(tgt<15.0)  ✗RF=0.77(tgt>3.0)  ✗W/L=1.63(tgt>2.0) | Trades=74
+2026-03-15 12:17:45,018 [INFO] agents.orchestrator: [4/5] Analyzing result...
+2026-03-15 12:18:37,741 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 12:18:37,747 [WARNING] agents.result_analyzer: Ollama unavailable, using rule-based analysis only: Ollama returned non-JSON response: ...
+2026-03-15 12:18:37,771 [INFO] agents.orchestrator:   Summary: Rule-based analysis: 3 metric(s) failing. LLM analysis unavailable.
+2026-03-15 12:18:37,771 [INFO] agents.orchestrator: [5/5] Generating improved config...
+2026-03-15 12:19:13,494 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 12:19:13,495 [WARNING] agents.strategy_improver: LLM improvement step skipped: Ollama returned non-JSON response: ...
+2026-03-15 12:19:13,496 [INFO] agents.strategy_improver: Improved config v0.3.1 → v0.3.2: 1 changes
+2026-03-15 12:19:13,496 [INFO] agents.orchestrator:   v0.3.1 → v0.3.2  changes: ['take_profit_pips']

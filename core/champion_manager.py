@@ -22,14 +22,26 @@ from core.database import GlobalChampion, Base
 
 logger = logging.getLogger(__name__)
 
+# Shared engine — one pool for all ChampionManager instances across symbols
+_shared_engine = None
+
+def _get_engine(db_url: str):
+    global _shared_engine
+    if _shared_engine is None:
+        _shared_engine = create_engine(
+            db_url, echo=False,
+            pool_size=3, max_overflow=2,  # max 5 total connections
+        )
+        Base.metadata.create_all(_shared_engine)
+    return _shared_engine
+
 
 class ChampionManager:
     """Manages persistent per-symbol champions."""
 
     def __init__(self, db_url: str):
-        """Initialize with database URL."""
-        self.engine = create_engine(db_url, echo=False)
-        Base.metadata.create_all(self.engine)
+        """Initialize with shared database engine."""
+        self.engine = _get_engine(db_url)
 
     def get_global_champion(self, symbol: str) -> Optional[Dict]:
         """
@@ -78,27 +90,27 @@ class ChampionManager:
             # Check if this result is better
             if current_champ is None:
                 is_better = True
-                logger.info("First champion for %s: %s (PF=%.2f)", symbol, result.version, result.profit_factor)
+                logger.info("First champion for %s: %s (PF=%.2f)", symbol, result.strategy_version, result.profit_factor)
             elif result.profit_factor > current_champ.profit_factor:
                 is_better = True
                 logger.info(
                     "New champion for %s: %s (PF=%.2f > %.2f)",
-                    symbol, result.version, result.profit_factor, current_champ.profit_factor,
+                    symbol, result.strategy_version, result.profit_factor, current_champ.profit_factor,
                 )
             else:
                 is_better = False
                 logger.debug(
                     "No promotion for %s: %s (PF=%.2f <= %.2f)",
-                    symbol, result.version, result.profit_factor, current_champ.profit_factor,
+                    symbol, result.strategy_version, result.profit_factor, current_champ.profit_factor,
                 )
 
             if is_better:
                 # Create or update champion
                 if current_champ:
                     current_champ.symbol = symbol
-                    current_champ.strategy_version = result.version
+                    current_champ.strategy_version = result.strategy_version
                     current_champ.promoted_at = datetime.utcnow()
-                    current_champ.file_path = result.file_path
+                    current_champ.file_path = result.report_path
                     current_champ.profit_factor = result.profit_factor
                     current_champ.max_drawdown_pct = result.max_drawdown_pct
                     current_champ.recovery_factor = result.recovery_factor
@@ -107,9 +119,9 @@ class ChampionManager:
                 else:
                     current_champ = GlobalChampion(
                         symbol=symbol,
-                        strategy_version=result.version,
+                        strategy_version=result.strategy_version,
                         promoted_at=datetime.utcnow(),
-                        file_path=result.file_path,
+                        file_path=result.report_path,
                         profit_factor=result.profit_factor,
                         max_drawdown_pct=result.max_drawdown_pct,
                         recovery_factor=result.recovery_factor,

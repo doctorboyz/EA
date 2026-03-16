@@ -1,0 +1,27 @@
+2026-03-15 14:48:56,972 [INFO] root: Logging to: logs/orchestrator_20260315_144856.log
+2026-03-15 14:48:57,019 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-03-15 14:48:57,258 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 14:48:57,258 [INFO] agents.orchestrator: Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud
+2026-03-15 14:48:57,259 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 10
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE
+2026-03-15 14:48:57,259 [INFO] agents.orchestrator: 
+--- Iteration 1 / 10 ---
+2026-03-15 14:48:57,259 [ERROR] agents.orchestrator: Iteration 1 failed: 'StrategyConfig' object has no attribute 'initial_capital'
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 314, in _run_one_iteration
+    if config.initial_capital != self.initial_capital:
+       ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/pydantic/main.py", line 1026, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'StrategyConfig' object has no attribute 'initial_capital'

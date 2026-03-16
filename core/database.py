@@ -37,6 +37,7 @@ class Strategy(Base):
     config: Mapped[dict] = mapped_column(JSONB, nullable=False)       # full StrategyConfig dict
     code_hash: Mapped[Optional[str]] = mapped_column(String(64))       # SHA-256 of .mq5 file
     code_path: Mapped[Optional[str]] = mapped_column(Text)
+    framework_type: Mapped[Optional[str]] = mapped_column(String(50), default="base_ea")  # TrendFollowing, MeanReversion, etc
     parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("strategies.id"))
     change_rationale: Mapped[Optional[dict]] = mapped_column(JSONB)   # why params changed
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
@@ -64,6 +65,7 @@ class BacktestRun(Base):
     date_from: Mapped[Optional[date]] = mapped_column(Date)
     date_to: Mapped[Optional[date]] = mapped_column(Date)
     initial_capital: Mapped[float] = mapped_column(Float, default=1000.0)
+    framework_type: Mapped[Optional[str]] = mapped_column(String(50))  # TrendFollowing, MeanReversion, etc
 
     # Edge metrics (profitability)
     profit_factor: Mapped[Optional[float]] = mapped_column(Float)
@@ -140,16 +142,78 @@ class Improvement(Base):
 
 
 class NewsEvent(Base):
-    """High-impact economic calendar events (ForexFactory)."""
+    """High-impact economic calendar events (MT5 calendar or ForexFactory fallback)."""
 
     __tablename__ = "news_events"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    event_datetime: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    currency: Mapped[str] = mapped_column(String(3), nullable=False)   # "USD", "EUR", etc.
+    event_datetime: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+    currency: Mapped[str] = mapped_column(String(3), nullable=False)   # "USD", "EUR"
     impact: Mapped[str] = mapped_column(String(10), nullable=False)    # "high", "medium", "low"
     event_name: Mapped[str] = mapped_column(String(256), nullable=False)
+    source: Mapped[str] = mapped_column(String(20), default="MT5")     # "MT5" | "ForexFactory"
+    actual: Mapped[Optional[float]] = mapped_column(Float)             # Reported actual value
+    forecast: Mapped[Optional[float]] = mapped_column(Float)           # Analyst forecast
+    previous: Mapped[Optional[float]] = mapped_column(Float)           # Prior release value
     fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+
+    # Relationships
+    market_feedbacks: Mapped[list["EventMarketFeedback"]] = relationship(
+        "EventMarketFeedback", back_populates="news_event"
+    )
+
+
+class EventMarketFeedback(Base):
+    """
+    Price reaction captured after each high-impact news event.
+
+    Stored after the post-event window has elapsed so the system can learn:
+    - Which events cause large pip moves (block longer)
+    - Which events are benign (reduce block window)
+    - Direction bias per event type (NFP → USD bullish, ECB rate cut → EUR bearish)
+    - Whether the EA had open trades during the event (risk exposure)
+    """
+
+    __tablename__ = "event_market_feedback"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    event_id: Mapped[int] = mapped_column(ForeignKey("news_events.id"), nullable=False, index=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False, index=True)  # "EURUSD"
+
+    # Price snapshot: 1h before → at event → 1h after → 2h after
+    price_1h_before: Mapped[Optional[float]] = mapped_column(Float)
+    price_at_event:  Mapped[Optional[float]] = mapped_column(Float)
+    price_1h_after:  Mapped[Optional[float]] = mapped_column(Float)
+    price_2h_after:  Mapped[Optional[float]] = mapped_column(Float)
+
+    # Movement metrics (positive = up, negative = down)
+    pip_move_1h: Mapped[Optional[float]] = mapped_column(Float)   # pips from event to +1h
+    pip_move_2h: Mapped[Optional[float]] = mapped_column(Float)   # pips from event to +2h
+    pip_spike:   Mapped[Optional[float]] = mapped_column(Float)   # max abs pip move in 2h window
+
+    # Directional outcome
+    direction: Mapped[Optional[str]] = mapped_column(String(10))  # "bullish"|"bearish"|"choppy"
+
+    # Volatility: ATR at event / ATR baseline (>1.5 = spike)
+    volatility_ratio: Mapped[Optional[float]] = mapped_column(Float)
+
+    # EA exposure during event
+    open_positions_at_event: Mapped[int] = mapped_column(Integer, default=0)
+    trades_blocked: Mapped[int] = mapped_column(Integer, default=0)  # signals suppressed
+
+    # Context: which framework + regime was active
+    framework_type: Mapped[Optional[str]] = mapped_column(String(50))
+    market_regime:  Mapped[Optional[str]] = mapped_column(String(20))  # trending|choppy|ranging
+
+    # Outcome flag: did blocking this event prevent a loss?
+    news_block_was_protective: Mapped[Optional[bool]] = mapped_column(Boolean)
+
+    collected_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=datetime.utcnow, index=True
+    )
+
+    # Relationships
+    news_event: Mapped["NewsEvent"] = relationship("NewsEvent", back_populates="market_feedbacks")
 
 
 class ScheduledRun(Base):
@@ -207,6 +271,264 @@ class GlobalChampion(Base):
 
 
 # ---------------------------------------------------------------------------
+# Phase 6+ Tables — Forward Test, Live Trading, Signals
+# ---------------------------------------------------------------------------
+
+class ForwardTestRun(Base):
+    """Demo deployment of a champion strategy. One row per champion+symbol+deploy."""
+
+    __tablename__ = "forward_test_runs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    strategy_id: Mapped[Optional[int]] = mapped_column(ForeignKey("strategies.id"))
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)
+    account_type: Mapped[str] = mapped_column(String(10), default="demo")   # "demo" | "real"
+    ea_magic_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    deployed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    status: Mapped[str] = mapped_column(String(20), default="running")      # running|promoted|failed|paused
+    promotion_criteria: Mapped[Optional[dict]] = mapped_column(JSONB)
+
+    # Accumulating metrics (updated by ForwardTestManager)
+    days_running: Mapped[int] = mapped_column(Integer, default=0)
+    total_trades: Mapped[int] = mapped_column(Integer, default=0)
+    net_profit: Mapped[float] = mapped_column(Float, default=0.0)
+    profit_factor: Mapped[Optional[float]] = mapped_column(Float)
+    max_drawdown_pct: Mapped[Optional[float]] = mapped_column(Float)
+    win_rate_pct: Mapped[Optional[float]] = mapped_column(Float)
+    vs_backtest_pf_delta: Mapped[Optional[float]] = mapped_column(Float)    # live_pf - backtest_pf
+
+    promoted_to_real: Mapped[bool] = mapped_column(Boolean, default=False)
+    promoted_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    notes: Mapped[Optional[str]] = mapped_column(Text)
+
+    # Relationships
+    live_trades: Mapped[list["LiveTrade"]] = relationship("LiveTrade", back_populates="forward_test_run")
+
+
+class LiveTrade(Base):
+    """Every individual trade on demo or real account, polled via REST bridge."""
+
+    __tablename__ = "live_trades"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    forward_test_id: Mapped[Optional[int]] = mapped_column(ForeignKey("forward_test_runs.id"))
+    ticket: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)
+    account_type: Mapped[str] = mapped_column(String(10), default="demo")
+    magic_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    order_type: Mapped[str] = mapped_column(String(5), nullable=False)      # "buy" | "sell"
+    open_time: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    close_time: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
+    open_price: Mapped[Optional[float]] = mapped_column(Float)
+    close_price: Mapped[Optional[float]] = mapped_column(Float)
+    volume: Mapped[Optional[float]] = mapped_column(Float)
+    sl: Mapped[Optional[float]] = mapped_column(Float)
+    tp: Mapped[Optional[float]] = mapped_column(Float)
+    profit_usd: Mapped[Optional[float]] = mapped_column(Float)
+    commission: Mapped[Optional[float]] = mapped_column(Float)
+    swap: Mapped[Optional[float]] = mapped_column(Float)
+    pips: Mapped[Optional[float]] = mapped_column(Float)
+    news_blocked: Mapped[bool] = mapped_column(Boolean, default=False)
+    signal_regime: Mapped[Optional[str]] = mapped_column(String(20))        # trending|ranging|volatile
+    recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+
+    # Relationships
+    forward_test_run: Mapped[Optional["ForwardTestRun"]] = relationship("ForwardTestRun", back_populates="live_trades")
+
+
+class SignalSnapshot(Base):
+    """Periodic technical regime snapshots from SignalAgent."""
+
+    __tablename__ = "signal_snapshots"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)
+    timeframe: Mapped[str] = mapped_column(String(5), default="H1")
+    captured_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    ema200_price: Mapped[Optional[float]] = mapped_column(Float)
+    close_price: Mapped[Optional[float]] = mapped_column(Float)
+    trend_direction: Mapped[Optional[str]] = mapped_column(String(10))      # bullish|bearish|neutral
+    rsi_value: Mapped[Optional[float]] = mapped_column(Float)
+    atr_value: Mapped[Optional[float]] = mapped_column(Float)
+    atr_percentile: Mapped[Optional[float]] = mapped_column(Float)
+    regime: Mapped[Optional[str]] = mapped_column(String(20))               # trending|ranging|volatile
+    regime_confidence: Mapped[Optional[float]] = mapped_column(Float)
+    source: Mapped[str] = mapped_column(String(20), default="bridge_poll")
+
+
+class ChampionPromotion(Base):
+    """Full audit trail of every promotion: backtest → forward test → real trading."""
+
+    __tablename__ = "champion_promotions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)
+    strategy_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    strategy_id: Mapped[Optional[int]] = mapped_column(ForeignKey("strategies.id"))
+    backtest_pf: Mapped[Optional[float]] = mapped_column(Float)
+    backtest_dd: Mapped[Optional[float]] = mapped_column(Float)
+    forward_test_id: Mapped[Optional[int]] = mapped_column(ForeignKey("forward_test_runs.id"))
+    forward_pf: Mapped[Optional[float]] = mapped_column(Float)
+    forward_dd: Mapped[Optional[float]] = mapped_column(Float)
+    phase: Mapped[str] = mapped_column(String(20), nullable=False)          # backtest_champion|forward_test|real_trading
+    promoted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    promoted_by: Mapped[str] = mapped_column(String(20), default="auto")    # auto|manual
+
+
+# ---------------------------------------------------------------------------
+# Phase 7: Walk-Forward & Robustness Validation Tables
+# ---------------------------------------------------------------------------
+
+class WalkForwardRun(Base):
+    """Summary of a walk-forward validation run for a champion strategy."""
+
+    __tablename__ = "walk_forward_runs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    strategy_id: Mapped[Optional[int]] = mapped_column(ForeignKey("strategies.id"))
+    strategy_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False)
+    timeframe: Mapped[str] = mapped_column(String(5), nullable=False)
+    initial_capital: Mapped[float] = mapped_column(Float, nullable=False)
+    full_period_pf: Mapped[float] = mapped_column(Float, nullable=False)  # Original backtest PF
+
+    # Aggregate walk-forward stats
+    n_windows: Mapped[int] = mapped_column(Integer, default=0)
+    windows_passed: Mapped[int] = mapped_column(Integer, default=0)
+    mean_pf: Mapped[Optional[float]] = mapped_column(Float)
+    min_pf: Mapped[Optional[float]] = mapped_column(Float)
+    max_pf: Mapped[Optional[float]] = mapped_column(Float)
+    pf_std: Mapped[Optional[float]] = mapped_column(Float)
+    pf_degradation: Mapped[Optional[float]] = mapped_column(Float)  # full_pf - mean_wf_pf
+    mean_dd: Mapped[Optional[float]] = mapped_column(Float)
+
+    # Gate result
+    is_robust: Mapped[bool] = mapped_column(Boolean, default=False)
+    rejection_reason: Mapped[Optional[str]] = mapped_column(Text)
+
+    # Capital range results {capital: pf}
+    capital_range_results: Mapped[Optional[dict]] = mapped_column(JSONB)
+
+    # Multi-TF results {timeframe: pf}
+    timeframe_results: Mapped[Optional[dict]] = mapped_column(JSONB)
+
+    # Per-window detail [{window_index, test_from, test_to, pf, dd, trades, status}]
+    window_details: Mapped[Optional[dict]] = mapped_column(JSONB)
+
+    run_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+
+
+# ---------------------------------------------------------------------------
+# Phase 3: Experience Database Tables
+# ---------------------------------------------------------------------------
+
+class FrameworkExperiment(Base):
+    """
+    One row per backtest run — records which framework was used,
+    what the market regime was, and what result it got.
+    This is the raw training data for the experience system.
+    """
+    __tablename__ = "framework_experiments"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
+    timeframe: Mapped[str] = mapped_column(String(5), nullable=False)
+    framework_type: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
+    market_regime: Mapped[Optional[str]] = mapped_column(String(20))      # trending/choppy/ranging/volatile
+    adx: Mapped[Optional[float]] = mapped_column(Float)
+    atr_pct: Mapped[Optional[float]] = mapped_column(Float)               # ATR as % of price
+    profit_factor: Mapped[Optional[float]] = mapped_column(Float)
+    max_drawdown_pct: Mapped[Optional[float]] = mapped_column(Float)
+    recovery_factor: Mapped[Optional[float]] = mapped_column(Float)
+    total_trades: Mapped[Optional[int]] = mapped_column(Integer)
+    meets_all_targets: Mapped[bool] = mapped_column(Boolean, default=False)
+    strategy_version: Mapped[Optional[str]] = mapped_column(String(32))
+    parameter_set: Mapped[Optional[dict]] = mapped_column(JSONB)          # key params used
+    run_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+
+
+class FrameworkPerformance(Base):
+    """
+    Aggregate statistics per (symbol, framework_type, market_regime).
+    Updated after each experiment — used to pick the best next framework.
+    """
+    __tablename__ = "framework_performance"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
+    framework_type: Mapped[str] = mapped_column(String(50), nullable=False, index=True)
+    market_regime: Mapped[Optional[str]] = mapped_column(String(20), index=True)  # None = overall
+
+    # Aggregate stats
+    total_runs: Mapped[int] = mapped_column(Integer, default=0)
+    champion_runs: Mapped[int] = mapped_column(Integer, default=0)        # runs that met all targets
+    avg_profit_factor: Mapped[Optional[float]] = mapped_column(Float)
+    best_profit_factor: Mapped[Optional[float]] = mapped_column(Float)
+    avg_drawdown_pct: Mapped[Optional[float]] = mapped_column(Float)
+    success_rate_pct: Mapped[Optional[float]] = mapped_column(Float)       # champion_runs / total_runs * 100
+    recommended: Mapped[bool] = mapped_column(Boolean, default=True)       # false = blacklisted
+
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+# Composite unique index: one row per (symbol, framework, regime)
+Index("idx_fw_perf_unique", FrameworkPerformance.symbol,
+      FrameworkPerformance.framework_type, FrameworkPerformance.market_regime, unique=True)
+
+
+class MarketSnapshot(Base):
+    """
+    Periodic snapshots of market conditions per symbol.
+    Used to detect current regime (trending/choppy/ranging/volatile)
+    and to match against which frameworks historically worked.
+    """
+    __tablename__ = "market_snapshots"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), nullable=False, index=True)
+    timeframe: Mapped[str] = mapped_column(String(5), nullable=False)
+    regime: Mapped[str] = mapped_column(String(20), nullable=False)       # trending/choppy/ranging/volatile
+    adx: Mapped[Optional[float]] = mapped_column(Float)
+    atr: Mapped[Optional[float]] = mapped_column(Float)
+    atr_pct: Mapped[Optional[float]] = mapped_column(Float)               # ATR / price * 100
+    ema_slope: Mapped[Optional[float]] = mapped_column(Float)             # positive = uptrend
+    rsi: Mapped[Optional[float]] = mapped_column(Float)
+    best_framework: Mapped[Optional[str]] = mapped_column(String(50))     # historically best for this regime
+    recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, index=True)
+
+
+class Pair(Base):
+    """
+    Pair metadata loaded from pairs.yaml — characteristics, constraints, trading properties.
+    Enables dynamic symbol management without hardcoding.
+    """
+    __tablename__ = "pairs"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    symbol: Mapped[str] = mapped_column(String(10), unique=True, nullable=False, index=True)  # EURUSD, GBPUSD, etc.
+
+    # Leverage and spread
+    broker_leverage: Mapped[str] = mapped_column(String(20), default="1:2000")
+    typical_spread_pips: Mapped[float] = mapped_column(Float, nullable=False)
+
+    # Volatility
+    typical_volatility_pips_h1: Mapped[float] = mapped_column(Float, nullable=False)
+
+    # Market hours
+    trading_hours: Mapped[str] = mapped_column(String(50), default="Unknown")  # Asia+London+NY or 24/5
+
+    # Correlation
+    correlation_vs_eurusd: Mapped[float] = mapped_column(Float, default=0.0)
+
+    # Metadata
+    description: Mapped[str] = mapped_column(Text, default="")
+    recommended: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    # Tracking
+    loaded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+# ---------------------------------------------------------------------------
 # Session factory
 # ---------------------------------------------------------------------------
 
@@ -243,3 +565,33 @@ async def create_tables(db_url: Optional[str] = None) -> None:
     engine = get_engine(db_url)
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+
+async def load_pairs_into_db(db_url: Optional[str] = None) -> None:
+    """Load all pairs from pairs.yaml into the pairs table."""
+    pairs_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'pairs.yaml')
+    with open(pairs_path) as f:
+        cfg = yaml.safe_load(f)
+
+    pairs_data = cfg.get('pairs', {})
+    async with get_session(db_url) as session:
+        from sqlalchemy import delete
+        # Clear existing pairs
+        await session.execute(delete(Pair))
+        await session.commit()
+
+        # Insert from pairs.yaml
+        for symbol, meta in pairs_data.items():
+            pair = Pair(
+                symbol=symbol,
+                broker_leverage=meta.get('broker_leverage', '1:2000'),
+                typical_spread_pips=meta.get('typical_spread_pips', 0.0),
+                typical_volatility_pips_h1=meta.get('typical_volatility_pips_h1', 0.0),
+                trading_hours=meta.get('trading_hours', 'Unknown'),
+                correlation_vs_eurusd=meta.get('correlation', 0.0),
+                description=meta.get('description', ''),
+                recommended=meta.get('recommended', False),
+            )
+            session.add(pair)
+
+        await session.commit()

@@ -1,0 +1,37 @@
+2026-03-15 21:22:03,390 [INFO] root: Logging to: logs/orchestrator_20260315_212203.log
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.schemas
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.tables
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.types
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.constraints
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.defaults
+2026-03-15 21:22:03,423 [INFO] alembic.runtime.plugins: setup plugin alembic.autogenerate.comments
+2026-03-15 21:22:03,485 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-03-15 21:22:03,523 [INFO] agents.daddy_agent: DaddyAgent: environment ready ✓
+2026-03-15 21:22:03,595 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 21:22:03,595 [INFO] agents.orchestrator: Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud
+2026-03-15 21:22:03,595 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 1
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: DRY RUN
+2026-03-15 21:22:03,596 [INFO] agents.orchestrator: 
+--- Iteration 1 / 1 ---
+2026-03-15 21:22:03,632 [INFO] core.experience_db: [Experience] EURUSD: no data yet → random Breakout
+2026-03-15 21:22:03,632 [INFO] agents.orchestrator: [1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | Breakout framework (regime: unknown)
+2026-03-15 21:22:03,632 [INFO] agents.code_generator: Using framework template: Breakout
+2026-03-15 21:22:03,636 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5
+2026-03-15 21:22:03,636 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5 (hash: 71dcb7b0...)
+2026-03-15 21:22:03,636 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5
+2026-03-15 21:22:03,636 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 21:22:03,636 [INFO] agents.backtest_runner: DRY RUN: using fixture /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html
+2026-03-15 21:22:03,636 [INFO] agents.orchestrator:   Report: /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html (0.0s)
+2026-03-15 21:22:03,636 [INFO] agents.orchestrator: [3/5] Parsing report...
+2026-03-15 21:22:03,683 [INFO] agents.orchestrator:   Metrics: ✗PF=1.24(tgt>1.5)  ✓DD=9.33(tgt<15.0)  ✗RF=0.77(tgt>3.0)  ✗W/L=1.63(tgt>2.0) | Trades=74
+2026-03-15 21:22:03,752 [INFO] agents.orchestrator: [4/5] Analyzing result...
+2026-03-15 21:23:03,318 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 21:23:03,328 [WARNING] agents.result_analyzer: Ollama unavailable, using rule-based analysis only: Ollama returned non-JSON response: ...
+2026-03-15 21:23:03,378 [INFO] agents.orchestrator:   Summary: Rule-based analysis: 3 metric(s) failing. LLM analysis unavailable.
+2026-03-15 21:23:03,378 [INFO] agents.orchestrator: [5/5] Generating improved config...
+2026-03-15 21:23:03,380 [INFO] agents.strategy_improver: Improved config v0.3.0 → v0.3.1: 2 changes
+2026-03-15 21:23:03,380 [INFO] agents.orchestrator:   v0.3.0 → v0.3.1  changes: ['take_profit_pips', 'breakeven_pips']

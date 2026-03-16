@@ -1,52 +1,39 @@
 """
-NewsFilterAgent (Agent 6) — Fetches ForexFactory economic calendar.
+NewsFilterAgent (Agent 6) — Economic calendar via MT5 built-in calendar.
 
-Fetches high-impact news events for EUR and USD (EURUSD pair).
-Returns a list of blocked datetime windows (±hours around event).
-These get injected into the generated MQL5 code or used to pause trading.
+Source: MT5 CalendarValueHistory() via RestBridgeEA (get_calendar command).
+If bridge is unavailable, returns empty list (no blocking — safe default).
 
-ForexFactory provides a public iCalendar (.ics) feed — no API key needed.
+Returns blocked datetime windows (±minutes around high-impact EUR/USD events).
+Events are stored in the database for market feedback learning.
 """
 
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Optional
-from zoneinfo import ZoneInfo
-
-import httpx
 
 logger = logging.getLogger(__name__)
-
-# ForexFactory iCal feed (free, public)
-FOREXFACTORY_ICAL_URL = "https://www.forexfactory.com/ff_cal_thisweek.xml"
-
-# Currencies that affect EURUSD
-EURUSD_CURRENCIES = {"USD", "EUR"}
-
-# Only block HIGH impact events
-HIGH_IMPACT_KEYWORDS = {
-    "Non-Farm", "NFP", "FOMC", "Fed Rate", "Interest Rate",
-    "CPI", "GDP", "Unemployment", "Retail Sales", "PMI Manufacturing",
-    "ECB", "Federal Reserve",
-}
 
 
 @dataclass
 class NewsEvent:
     """A single economic calendar event."""
     event_datetime: datetime
-    currency: str
-    impact: str          # "High", "Medium", "Low"
-    title: str
-    source: str = "ForexFactory"
+    currency:       str
+    impact:         str           # "High"
+    title:          str
+    source:         str = "MT5"
+    actual:         Optional[float] = None
+    forecast:       Optional[float] = None
+    previous:       Optional[float] = None
 
 
 @dataclass
 class BlockedWindow:
     """A time window during which trading is suppressed."""
-    start: datetime
-    end: datetime
+    start:  datetime
+    end:    datetime
     reason: str
 
 
@@ -54,23 +41,29 @@ class NewsFilterAgent:
     """
     Agent 6: Economic calendar integration.
 
-    Fetches upcoming high-impact events and returns blocked trading windows.
-    Events are cached for the session to avoid repeated HTTP calls.
-    Falls back gracefully (no blocking) if fetch fails.
+    Fetch order:
+      1. MT5 bridge (get_calendar command) — real-time, official MetaQuotes data
+      2. ForexFactory XML feed — fallback if bridge not available
+
+    Events are cached per session (TTL: 6h). Fetching never blocks the loop —
+    if both sources fail, returns empty list (no blocking, safe default).
     """
 
     def __init__(
         self,
-        block_hours_before: int = 1,
-        block_hours_after: int = 2,
-        timeout_seconds: int = 10,
+        block_minutes_before: int = 60,
+        block_minutes_after:  int = 120,
+        timeout_seconds:      int = 10,
     ) -> None:
-        self.block_hours_before = block_hours_before
-        self.block_hours_after = block_hours_after
-        self.timeout_seconds = timeout_seconds
-        self._cached_events: Optional[list[NewsEvent]] = None
-        self._cache_fetched_at: Optional[datetime] = None
-        self._cache_ttl_hours: int = 6
+        self.block_minutes_before = block_minutes_before
+        self.block_minutes_after  = block_minutes_after
+        self.timeout_seconds      = timeout_seconds
+        self._cached_events:      Optional[list[NewsEvent]] = None
+        self._cache_fetched_at:   Optional[datetime]        = None
+        self._cache_ttl_hours:    int = 6
+        # Stale cache: last successful fetch — used as fallback if bridge fails
+        self._stale_events:       Optional[list[NewsEvent]] = None
+        self._stale_fetched_at:   Optional[datetime]        = None
 
     # ------------------------------------------------------------------
     # Main interface
@@ -79,23 +72,18 @@ class NewsFilterAgent:
     def get_blocked_windows(
         self,
         from_dt: Optional[datetime] = None,
-        to_dt: Optional[datetime] = None,
+        to_dt:   Optional[datetime] = None,
     ) -> list[BlockedWindow]:
         """
-        Get list of blocked trading windows for the given period.
+        Get blocked trading windows for the given period.
 
-        Args:
-            from_dt: Start of period (default: now)
-            to_dt:   End of period (default: now + 7 days)
-
-        Returns:
-            List of BlockedWindow objects. Empty list if fetch fails.
+        Returns empty list if fetch fails (safe default — never blocks the loop).
         """
-        now = datetime.now(tz=timezone.utc)
+        now     = datetime.now(tz=timezone.utc)
         from_dt = from_dt or now
-        to_dt = to_dt or (now + timedelta(days=7))
+        to_dt   = to_dt   or (now + timedelta(days=7))
 
-        events = self._get_events()
+        events  = self._get_events()
         windows: list[BlockedWindow] = []
 
         for event in events:
@@ -103,15 +91,15 @@ class NewsFilterAgent:
             if event_dt.tzinfo is None:
                 event_dt = event_dt.replace(tzinfo=timezone.utc)
 
-            # Skip if outside the requested period
-            if event_dt < from_dt - timedelta(hours=self.block_hours_before):
-                continue
-            if event_dt > to_dt + timedelta(hours=self.block_hours_after):
-                continue
+            window_start = event_dt - timedelta(minutes=self.block_minutes_before)
+            window_end   = event_dt + timedelta(minutes=self.block_minutes_after)
+
+            if window_end   < from_dt: continue
+            if window_start > to_dt:   continue
 
             windows.append(BlockedWindow(
-                start=event_dt - timedelta(hours=self.block_hours_before),
-                end=event_dt + timedelta(hours=self.block_hours_after),
+                start=window_start,
+                end=window_end,
                 reason=f"{event.currency} {event.title}",
             ))
 
@@ -131,148 +119,19 @@ class NewsFilterAgent:
 
         windows = self.get_blocked_windows(
             from_dt=dt - timedelta(hours=24),
-            to_dt=dt + timedelta(hours=24),
+            to_dt=dt   + timedelta(hours=24),
         )
         for window in windows:
             start = window.start if window.start.tzinfo else window.start.replace(tzinfo=timezone.utc)
-            end = window.end if window.end.tzinfo else window.end.replace(tzinfo=timezone.utc)
+            end   = window.end   if window.end.tzinfo   else window.end.replace(tzinfo=timezone.utc)
             if start <= dt <= end:
                 return True, window.reason
 
         return False, ""
 
-    def get_blocked_hours_for_mql5(
-        self,
-        from_dt: Optional[datetime] = None,
-        to_dt: Optional[datetime] = None,
-    ) -> list[str]:
-        """
-        Return blocked hours as ISO datetime strings for injection into StrategyConfig.
-        These get stored in config.news_block_hours and written to the EA.
-        """
-        windows = self.get_blocked_windows(from_dt, to_dt)
-        result = []
-        for window in windows:
-            # Generate hourly slots within the window
-            current = window.start.replace(minute=0, second=0, microsecond=0)
-            while current <= window.end:
-                result.append(current.isoformat())
-                current += timedelta(hours=1)
-        return sorted(set(result))
-
-    # ------------------------------------------------------------------
-    # Event fetching + caching
-    # ------------------------------------------------------------------
-
-    def _get_events(self) -> list[NewsEvent]:
-        """Get events from cache or fetch fresh."""
-        now = datetime.now(tz=timezone.utc)
-
-        # Return cache if valid
-        if (self._cached_events is not None and
-                self._cache_fetched_at is not None and
-                (now - self._cache_fetched_at).total_seconds() < self._cache_ttl_hours * 3600):
-            return self._cached_events
-
-        # Fetch fresh
-        events = self._fetch_events()
-        self._cached_events = events
-        self._cache_fetched_at = now
-        return events
-
-    def _fetch_events(self) -> list[NewsEvent]:
-        """
-        Fetch events from ForexFactory XML feed.
-        Falls back to empty list if fetch fails.
-        """
-        try:
-            with httpx.Client(timeout=self.timeout_seconds) as client:
-                resp = client.get(FOREXFACTORY_ICAL_URL)
-                resp.raise_for_status()
-                return self._parse_xml(resp.text)
-        except Exception as e:
-            logger.warning("NewsFilter: fetch failed (%s) — no news blocking this session", e)
-            return []
-
-    def _parse_xml(self, xml_text: str) -> list[NewsEvent]:
-        """Parse ForexFactory weekly XML calendar."""
-        import xml.etree.ElementTree as ET
-        events: list[NewsEvent] = []
-
-        try:
-            root = ET.fromstring(xml_text)
-        except ET.ParseError as e:
-            logger.warning("NewsFilter: XML parse error: %s", e)
-            return events
-
-        for item in root.iter('event'):
-            try:
-                title_el    = item.find('title')
-                currency_el = item.find('country')
-                impact_el   = item.find('impact')
-                date_el     = item.find('date')
-                time_el     = item.find('time')
-
-                if any(el is None for el in [title_el, currency_el, impact_el, date_el]):
-                    continue
-
-                title    = (title_el.text or '').strip()
-                currency = (currency_el.text or '').strip().upper()
-                impact   = (impact_el.text or '').strip()
-                date_str = (date_el.text or '').strip()
-                time_str = (time_el.text or '00:00am').strip() if time_el is not None else '12:00am'
-
-                # Only process EURUSD-relevant high-impact events
-                if currency not in EURUSD_CURRENCIES:
-                    continue
-                if impact.lower() not in ('high', '3'):
-                    continue
-
-                # Parse date + time
-                event_dt = self._parse_ff_datetime(date_str, time_str)
-                if event_dt is None:
-                    continue
-
-                events.append(NewsEvent(
-                    event_datetime=event_dt,
-                    currency=currency,
-                    impact="High",
-                    title=title,
-                ))
-
-            except Exception as e:
-                logger.debug("NewsFilter: skipping malformed event: %s", e)
-                continue
-
-        logger.info("NewsFilter: parsed %d high-impact events", len(events))
-        return events
-
-    def _parse_ff_datetime(self, date_str: str, time_str: str) -> Optional[datetime]:
-        """
-        Parse ForexFactory date and time strings.
-        FF format: date like 'Jan 13 2026', time like '8:30am'
-        Returns UTC datetime or None on failure.
-        """
-        try:
-            # Combine date and time
-            combined = f"{date_str} {time_str}".strip()
-            # Try various formats
-            for fmt in ('%b %d %Y %I:%M%p', '%b %d %Y %I%p', '%Y-%m-%d %H:%M:%S'):
-                try:
-                    dt = datetime.strptime(combined, fmt)
-                    # FF times are US Eastern
-                    eastern = ZoneInfo("America/New_York")
-                    dt_eastern = dt.replace(tzinfo=eastern)
-                    return dt_eastern.astimezone(timezone.utc)
-                except ValueError:
-                    continue
-        except Exception:
-            pass
-        return None
-
-    # ------------------------------------------------------------------
-    # Convenience: inject blocked windows into MQL5 comment
-    # ------------------------------------------------------------------
+    def get_raw_events(self) -> list[NewsEvent]:
+        """Return all cached events (for database storage)."""
+        return self._get_events()
 
     def format_for_log(self, windows: list[BlockedWindow]) -> str:
         """Format blocked windows for display in logs."""
@@ -285,3 +144,87 @@ class NewsFilterAgent:
                 f"{w.end.strftime('%H:%M')} UTC — {w.reason}"
             )
         return "\n".join(lines)
+
+    # ------------------------------------------------------------------
+    # Event fetching + caching
+    # ------------------------------------------------------------------
+
+    def _get_events(self) -> list[NewsEvent]:
+        """
+        Return cached events or fetch fresh.
+
+        Fallback priority on fetch failure:
+          1. Stale cache (last successful fetch, any age) — preferred, real data
+          2. Empty list — only if no stale data exists at all
+        """
+        now = datetime.now(tz=timezone.utc)
+
+        # Return live cache if still fresh
+        if (self._cached_events is not None
+                and self._cache_fetched_at is not None
+                and (now - self._cache_fetched_at).total_seconds() < self._cache_ttl_hours * 3600):
+            return self._cached_events
+
+        events = self._fetch_from_bridge()
+
+        if events:
+            # Success — update both live cache and stale backup
+            self._cached_events    = events
+            self._cache_fetched_at = now
+            self._stale_events     = events
+            self._stale_fetched_at = now
+        else:
+            # Fetch failed — fall back to stale cache if available
+            if self._stale_events is not None:
+                age_h = (now - self._stale_fetched_at).total_seconds() / 3600
+                logger.warning(
+                    "NewsFilter: bridge fetch failed — using stale cache "
+                    "(%.1fh old, %d events)", age_h, len(self._stale_events)
+                )
+                # Keep live cache pointing at stale data so next tick doesn't re-fetch immediately
+                self._cached_events    = self._stale_events
+                self._cache_fetched_at = now
+            else:
+                logger.warning("NewsFilter: bridge failed and no stale cache — no blocking this session")
+                self._cached_events    = []
+                self._cache_fetched_at = now
+
+        return self._cached_events
+
+    # ------------------------------------------------------------------
+    # Source: MT5 Bridge
+    # ------------------------------------------------------------------
+
+    def _fetch_from_bridge(self) -> list[NewsEvent]:
+        """
+        Fetch events from MT5 built-in calendar via RestBridgeEA.
+        Returns empty list if bridge is not running.
+        """
+        try:
+            from bridge.rest_bridge_client import BridgeClient
+            bridge = BridgeClient()
+            if not bridge.ping():
+                logger.debug("NewsFilter: bridge not available")
+                return []
+
+            raw = bridge.get_calendar(hours_ahead=168)   # 7 days
+            events: list[NewsEvent] = []
+            for e in raw:
+                events.append(NewsEvent(
+                    event_datetime=e.time if e.time.tzinfo else e.time.replace(tzinfo=timezone.utc),
+                    currency=e.currency,
+                    impact="High",
+                    title=e.name,
+                    source="MT5",
+                    actual=e.actual,
+                    forecast=e.forecast,
+                    previous=e.previous,
+                ))
+
+            logger.info("NewsFilter: %d high-impact events from MT5 bridge", len(events))
+            return events
+
+        except Exception as exc:
+            logger.warning("NewsFilter: bridge fetch error: %s", exc)
+            return []
+

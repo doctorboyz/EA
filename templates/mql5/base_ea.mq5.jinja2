@@ -16,6 +16,11 @@ input int      TakeProfitPips    = {{ take_profit_pips }};  // Take profit dista
 input int      BreakEvenPips     = {{ breakeven_pips }};    // Move SL to BE when profit >= this
 input int      TrailingStopPips  = {{ trailing_stop_pips }}; // Trailing stop distance in pips
 
+//--- News Filter Inputs (MT5 built-in calendar)
+input bool     UseNewsFilter     = {{ 'true' if config.use_news_filter | default(true) else 'false' }};
+input int      NewsMinutesBefore = {{ config.news_minutes_before | default(60) }};   // Block trading X min before event
+input int      NewsMinutesAfter  = {{ config.news_minutes_after  | default(120) }};  // Block trading X min after event
+
 //--- Indicator Inputs
 input int      RSI_Period        = {{ rsi_period }};
 input double   RSI_Oversold      = {{ rsi_oversold }};      // Buy signal RSI threshold
@@ -106,10 +111,70 @@ void OnDeinit(const int reason)
 }
 
 //+------------------------------------------------------------------+
+//| News filter — uses MT5 built-in economic calendar               |
+//| Works in backtesting AND live (replays historical events)       |
+//+------------------------------------------------------------------+
+bool IsNewsTime()
+{
+   if(!UseNewsFilter) return false;
+
+   datetime now  = TimeCurrent();
+   datetime from = now - (datetime)(NewsMinutesBefore * 60);
+   datetime to   = now + (datetime)(NewsMinutesAfter  * 60);
+
+   MqlCalendarValue values[];
+
+   // Check EUR events (affects EURUSD)
+   if(CalendarValueHistory(values, from, to, "EU") > 0)
+   {
+      for(int i = 0; i < ArraySize(values); i++)
+      {
+         MqlCalendarEvent evt;
+         if(!CalendarEventById(values[i].event_id, evt)) continue;
+         if(evt.importance != CALENDAR_IMPORTANCE_HIGH)  continue;
+         if(values[i].time >= from && values[i].time <= to)
+         {
+            Print("[{{ name }}] NEWS BLOCK (EUR): ", evt.name,
+                  " at ", TimeToString(values[i].time, TIME_DATE|TIME_MINUTES));
+            return true;
+         }
+      }
+   }
+
+   // Check USD events (affects EURUSD)
+   ArrayFree(values);
+   if(CalendarValueHistory(values, from, to, "US") > 0)
+   {
+      for(int i = 0; i < ArraySize(values); i++)
+      {
+         MqlCalendarEvent evt;
+         if(!CalendarEventById(values[i].event_id, evt)) continue;
+         if(evt.importance != CALENDAR_IMPORTANCE_HIGH)  continue;
+         if(values[i].time >= from && values[i].time <= to)
+         {
+            Print("[{{ name }}] NEWS BLOCK (USD): ", evt.name,
+                  " at ", TimeToString(values[i].time, TIME_DATE|TIME_MINUTES));
+            return true;
+         }
+      }
+   }
+
+   return false;
+}
+
+//+------------------------------------------------------------------+
 //| Main tick handler                                                 |
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   //--- News blackout check (MT5 calendar — works in backtest + live)
+   if(IsNewsTime())
+   {
+      Comment("=== {{ name }} v{{ version }} ===\n"
+              "⛔ NEWS BLACKOUT — trading suspended");
+      return;
+   }
+
    //--- Read indicator buffers
    double rsiVal[], atrVal[], emaVal[];
    ArraySetAsSeries(rsiVal, true);

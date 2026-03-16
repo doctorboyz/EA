@@ -1,0 +1,37 @@
+2026-03-15 12:15:25,383 [INFO] root: Logging to: logs/orchestrator_20260315_121525.log
+2026-03-15 12:15:25,473 [INFO] core.champion_manager: No global champion found for EURUSD
+2026-03-15 12:15:25,474 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=0.00 (vnone)
+2026-03-15 12:15:25,475 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 2
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: DRY RUN
+2026-03-15 12:15:25,475 [INFO] agents.orchestrator: 
+--- Iteration 1 / 2 ---
+2026-03-15 12:15:25,475 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 12:15:25,482 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:15:25,483 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5 (hash: 07492fde...)
+2026-03-15 12:15:25,483 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:15:25,483 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:15:25,483 [INFO] agents.backtest_runner: DRY RUN: using fixture /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html
+2026-03-15 12:15:25,483 [INFO] agents.orchestrator:   Report: /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html (0.0s)
+2026-03-15 12:15:25,483 [INFO] agents.orchestrator: [3/5] Parsing report...
+2026-03-15 12:15:25,522 [INFO] agents.orchestrator:   Metrics: ✗PF=1.24(tgt>1.5)  ✓DD=9.33(tgt<15.0)  ✗RF=0.77(tgt>3.0)  ✗W/L=1.63(tgt>2.0) | Trades=74
+2026-03-15 12:15:25,608 [ERROR] agents.orchestrator: Iteration 1 failed: 'BacktestResult' object has no attribute 'version'
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 164, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 263, in _run_one_iteration
+    promoted = self.champion_manager.promote_if_better(backtest_result, self.symbol)
+  File "/Users/doctorboyz/EA/core/champion_manager.py", line 81, in promote_if_better
+    logger.info("First champion for %s: %s (PF=%.2f)", symbol, result.version, result.profit_factor)
+                                                               ^^^^^^^^^^^^^^
+  File "/Users/doctorboyz/EA/venv/lib/python3.14/site-packages/pydantic/main.py", line 1026, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'BacktestResult' object has no attribute 'version'

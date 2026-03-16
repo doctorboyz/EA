@@ -103,11 +103,25 @@ class CodeGeneratorAgent:
     # Core: Jinja2 rendering
     # ------------------------------------------------------------------
 
-    def _render_template(self, config: StrategyConfig) -> str:
-        """Render base_ea.mq5.jinja2 with config parameters."""
-        template = self._jinja_env.get_template("base_ea.mq5.jinja2")
+    def _render_template(self, config: StrategyConfig, framework: Optional[str] = None) -> str:
+        """
+        Render MQL5 template with config parameters.
+
+        If framework is provided, use frameworks/{framework}.mq5.jinja2
+        Otherwise, use base_ea.mq5.jinja2 (legacy parameter tweaking mode)
+        """
+        # Select template based on framework
+        if framework:
+            template_name = f"frameworks/{framework}.mq5.jinja2"
+            logger.info("Using framework template: %s", framework)
+        else:
+            template_name = "base_ea.mq5.jinja2"
+
+        template = self._jinja_env.get_template(template_name)
         version_str = str(config.version)
-        return template.render(
+
+        # Build render context with all parameters
+        render_ctx = dict(
             name=config.name,
             version=version_str,
             symbol=config.symbol,
@@ -130,7 +144,10 @@ class CodeGeneratorAgent:
             adx_min_strength=config.adx_min_strength,
             use_h4_filter=config.use_h4_filter,
             h4_ema_period=config.h4_ema_period,
+            generated_at=datetime.utcnow().isoformat(),
         )
+
+        return template.render(**render_ctx)
 
     # ------------------------------------------------------------------
     # Optional: LLM comment enrichment
@@ -176,9 +193,55 @@ class CodeGeneratorAgent:
     # Output: write .mq5 file
     # ------------------------------------------------------------------
 
-    def _write_file(self, code: str, config: StrategyConfig) -> str:
-        """Write code to strategies/generated/ and return file path."""
-        filename = f"{config.name}_v{config.version}.mq5".replace('.', '_', 2)
+    def _write_file(
+        self,
+        code: str,
+        config: StrategyConfig,
+        symbol: Optional[str] = None,
+        timeframe: Optional[str] = None,
+        risk_percent: Optional[float] = None,
+        initial_capital: Optional[float] = None,
+        framework: Optional[str] = None,
+    ) -> str:
+        """Write code to strategies/generated/ and return file path.
+
+        Filename format: AureusV{major}_{minor}_{patch}_{iteration}_{symbol}_{TF}_R{risk}_Cap{capital}_{Framework}.mq5
+        """
+        # Use provided params or fall back to config
+        symbol = symbol or config.symbol or "EURUSD"
+        timeframe = timeframe or config.timeframe or "H1"
+        risk_percent = risk_percent if risk_percent is not None else config.risk_percent
+        initial_capital = initial_capital or 1000
+
+        # Short symbol (first 3 chars, e.g., EUR from EURUSD)
+        short_symbol = symbol[:3] if len(symbol) >= 3 else symbol
+
+        # Version string: {major}.{minor}.{patch}.{iteration}
+        version = str(config.version)  # e.g., "0.5.1.3"
+        version_short = version.replace(".", "_")  # e.g., "0_5_1_3"
+
+        # Risk as integer (1 for 1%)
+        risk_int = int(risk_percent) if risk_percent else 1
+
+        # Capital as integer (1000 for $1000)
+        capital_int = int(initial_capital) if initial_capital else 1000
+
+        # Framework abbreviation (TrendFollowing → TF, MeanReversion → MR, etc.)
+        _fw_abbr = {
+            "TrendFollowing": "TF",
+            "MeanReversion":  "MR",
+            "Breakout":       "BO",
+            "XAUBreakout":    "XBO",   # XAUUSD ATR-channel breakout
+            "GridTrading":    "GT",
+            "SniperEntry":    "SE",
+            "CandlePattern":  "CP",
+            "IchimokuCloud":  "IC",
+        }
+        fw_tag = _fw_abbr.get(framework, framework or "Base")
+
+        # Build filename: AureusV0_5_1_3_EUR_H1_R1_Cap1000_TF.mq5
+        filename = f"AureusV{version_short}_{short_symbol}_{timeframe}_R{risk_int}_Cap{capital_int}_{fw_tag}.mq5"
+
         file_path = self.generated_dir / filename
         file_path.write_text(code, encoding='utf-8')
         logger.info("Wrote generated EA: %s", file_path)
@@ -188,15 +251,34 @@ class CodeGeneratorAgent:
     # Main interface
     # ------------------------------------------------------------------
 
-    def generate(self, config: StrategyConfig) -> GeneratedCode:
+    def generate(
+        self,
+        config: StrategyConfig,
+        symbol: Optional[str] = None,
+        timeframe: Optional[str] = None,
+        risk_percent: Optional[float] = None,
+        initial_capital: Optional[float] = None,
+        framework: Optional[str] = None,
+    ) -> GeneratedCode:
         """
         Generate MQL5 code from StrategyConfig.
+
+        Args:
+            config: StrategyConfig with parameters
+            symbol: Override symbol (e.g., 'EURUSD', 'XAUUSD')
+            timeframe: Override timeframe (e.g., 'H1', 'H4')
+            risk_percent: Override risk percent (e.g., 1.0 for 1%)
+            initial_capital: Override initial capital (e.g., 1000)
+            framework: Strategy framework (e.g., 'TrendFollowing', 'MeanReversion', etc)
+                      If None, uses 'base_ea' (parameter tweaking mode)
+
+        Filename will be: AureusV{version}_{symbol}_{TF}_R{risk}_Cap{capital}.mq5
 
         Returns GeneratedCode with validation result.
         Raises ConstraintViolation if validation fails (hard reject).
         """
-        # Step 1: Render template
-        code = self._render_template(config)
+        # Step 1: Render template (base_ea or framework)
+        code = self._render_template(config, framework=framework)
 
         # Step 2: Optional LLM enrichment (comments only)
         used_llm = False
@@ -208,7 +290,14 @@ class CodeGeneratorAgent:
         is_valid, violations = ConstraintValidator.validate_mql5_code(code)
 
         # Step 4: Write file regardless (for inspection), but mark validation status
-        file_path = self._write_file(code, config)
+        file_path = self._write_file(
+            code, config,
+            symbol=symbol,
+            timeframe=timeframe,
+            risk_percent=risk_percent,
+            initial_capital=initial_capital,
+            framework=framework,
+        )
         code_hash = _sha256(code)
 
         result = GeneratedCode(

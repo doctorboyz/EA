@@ -1,0 +1,65 @@
+2026-03-15 12:35:24,445 [INFO] root: Logging to: logs/orchestrator_20260315_123524.log
+2026-03-15 12:35:24,480 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-03-15 12:35:24,558 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 12:35:24,559 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 10
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE
+2026-03-15 12:35:24,559 [INFO] agents.orchestrator: 
+--- Iteration 1 / 10 ---
+2026-03-15 12:35:24,559 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 12:35:24,566 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:35:24,566 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5 (hash: 07492fde...)
+2026-03-15 12:35:24,566 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:35:24,566 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:35:24,566 [INFO] agents.backtest_runner: Copied EA to experts: AureusV3_AI_v0_3_0
+2026-03-15 12:35:24,567 [INFO] agents.backtest_runner: Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini
+2026-03-15 12:35:24,567 [INFO] agents.backtest_runner: Launching MT5: wine /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:/Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini
+2026-03-15 12:35:24,571 [ERROR] agents.orchestrator: Iteration 1 failed: 'wine' command not found. Install Wine/Whisky to run MT5 on macOS. Original error: [Errno 2] No such file or directory: 'wine'
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 231, in _launch_mt5
+    subprocess.Popen(
+    ~~~~~~~~~~~~~~~~^
+        cmd,
+        ^^^^
+    ...<2 lines>...
+        # Don't wait — MT5 writes report then exits (ShutdownTerminal=true)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'wine'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 164, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 246, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 132, in run
+    self._launch_mt5(ini_path)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 238, in _launch_mt5
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from e
+RuntimeError: 'wine' command not found. Install Wine/Whisky to run MT5 on macOS. Original error: [Errno 2] No such file or directory: 'wine'

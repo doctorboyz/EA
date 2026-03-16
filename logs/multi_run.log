@@ -1,0 +1,914 @@
+{"time": "2026-03-15 15:07:35,000", "level": "INFO", "logger": "run_multi", "message": "============================================================"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "  Aureus AI — Multi-Symbol Trading System"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "  PID: 61930"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "============================================================"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "  Symbols:    EURUSD, XAUUSD, GBPUSD"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "  Iterations: 20 per symbol"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "  Mode:       🔍 HUNTING (max 48 hours)"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "============================================================"}
+{"time": "2026-03-15 15:07:35,001", "level": "INFO", "logger": "run_multi", "message": "─── Cycle 1 ───────────────────────────────────"}
+{"time": "2026-03-15 15:07:35,037", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "MultiSymbolOrchestrator starting: symbols=['EURUSD', 'XAUUSD', 'GBPUSD']"}
+{"time": "2026-03-15 15:07:35,037", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Starting champion hunt (max 48 hours)"}
+{"time": "2026-03-15 15:07:35,037", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle starting (iter 1, elapsed 0h 0m)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Starting champion hunt (max 48 hours)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 1, elapsed 0h 0m)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Starting champion hunt (max 48 hours)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 1, elapsed 0h 0m)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "Forward test poll loop started (every 10m)"}
+{"time": "2026-03-15 15:07:35,038", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "Signal snapshot loop started (every 60m)"}
+{"time": "2026-03-15 15:07:45,209", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 15:07:45,209", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 15:07:45,225", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 15:07:45,324", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)"}
+{"time": "2026-03-15 15:07:45,324", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 15:07:45,325", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 15:07:45,325", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 15:07:45,335", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 15:07:45,336", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 15:07:45,336", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 15:07:45,336", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 15:07:45,336", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 15:07:45,344", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 15:07:45,345", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 15:07:45,345", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 15:07:45,345", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 15:07:45,345", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 15:07:45,410", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random MeanReversion"}
+{"time": "2026-03-15 15:07:45,410", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | MeanReversion framework (regime: unknown)"}
+{"time": "2026-03-15 15:07:45,411", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: MeanReversion"}
+{"time": "2026-03-15 15:07:45,411", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random GridTrading"}
+{"time": "2026-03-15 15:07:45,411", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | GridTrading framework (regime: unknown)"}
+{"time": "2026-03-15 15:07:45,411", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random MeanReversion"}
+{"time": "2026-03-15 15:07:45,411", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | MeanReversion framework (regime: unknown)"}
+{"time": "2026-03-15 15:07:45,415", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:07:45,415", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_MR.mq5 (hash: 80e4bec1...)"}
+{"time": "2026-03-15 15:07:45,415", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:07:45,415", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 15:07:45,416", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 15:07:45,416", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_MR"}
+{"time": "2026-03-15 15:07:45,416", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 15:07:45,416", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 15:07:45,420", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 15:07:45,420", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 15:22:46,166", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 15:22:46,176", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 1 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 15:22:46,176", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 2, elapsed 0h 15m)"}
+{"time": "2026-03-15 15:22:46,178", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: GridTrading"}
+{"time": "2026-03-15 15:22:46,188", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_GT.mq5"}
+{"time": "2026-03-15 15:22:46,188", "level": "ERROR", "logger": "agents.code_generator", "message": "Generated code for v0.3.0 failed validation: ['No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)']"}
+{"time": "2026-03-15 15:22:46,189", "level": "ERROR", "logger": "agents.orchestrator", "message": "Constraint violation at iteration 1: Generated code violates 1 constraint(s): No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"}
+{"time": "2026-03-15 15:22:46,189", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 2 / 20 ---"}
+{"time": "2026-03-15 15:22:46,194", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: MeanReversion"}
+{"time": "2026-03-15 15:22:46,200", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:22:46,200", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5 (hash: 5c366d4d...)"}
+{"time": "2026-03-15 15:22:46,200", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:22:46,200", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 15:22:46,200", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 15:22:46,201", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_MR"}
+{"time": "2026-03-15 15:22:46,202", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 15:22:46,202", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 15:22:46,208", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 15:22:46,208", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 15:22:56,265", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 15:37:47,269", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 15:37:47,274", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 1 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 15:37:47,275", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 2, elapsed 0h 30m)"}
+{"time": "2026-03-15 15:37:47,305", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 15:37:47,307", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 15:37:47,307", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 15:37:47,307", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 15:37:47,307", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 15:37:47,312", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random CandlePattern"}
+{"time": "2026-03-15 15:37:47,312", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | CandlePattern framework (regime: unknown)"}
+{"time": "2026-03-15 15:37:47,313", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: CandlePattern"}
+{"time": "2026-03-15 15:37:47,314", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random GridTrading"}
+{"time": "2026-03-15 15:37:47,314", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | GridTrading framework (regime: unknown)"}
+{"time": "2026-03-15 15:37:47,319", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 15:37:47,319", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_CP.mq5 (hash: 72501c52...)"}
+{"time": "2026-03-15 15:37:47,320", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 15:37:47,320", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 15:37:47,320", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] EURUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 15:37:47,321", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000_CP"}
+{"time": "2026-03-15 15:37:47,321", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 15:37:47,321", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 15:37:47,326", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 15:37:47,326", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 15:37:57,376", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 15:52:48,444", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 2 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 15:52:48,449", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle 1 done | Best PF so far: 1.24"}
+{"time": "2026-03-15 15:52:48,450", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle starting (iter 2, elapsed 0h 45m)"}
+{"time": "2026-03-15 15:52:48,451", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: GridTrading"}
+{"time": "2026-03-15 15:52:48,478", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_GT.mq5"}
+{"time": "2026-03-15 15:52:48,478", "level": "ERROR", "logger": "agents.code_generator", "message": "Generated code for v0.3.0 failed validation: ['No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)']"}
+{"time": "2026-03-15 15:52:48,487", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 15:52:48,488", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 15:52:48,488", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 15:52:48,488", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 15:52:48,488", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 15:52:48,490", "level": "ERROR", "logger": "agents.orchestrator", "message": "Constraint violation at iteration 1: Generated code violates 1 constraint(s): No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"}
+{"time": "2026-03-15 15:52:48,490", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 2 / 20 ---"}
+{"time": "2026-03-15 15:52:48,494", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random MeanReversion"}
+{"time": "2026-03-15 15:52:48,495", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | MeanReversion framework (regime: unknown)"}
+{"time": "2026-03-15 15:52:48,495", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: MeanReversion"}
+{"time": "2026-03-15 15:52:48,500", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random IchimokuCloud"}
+{"time": "2026-03-15 15:52:48,500", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | IchimokuCloud framework (regime: unknown)"}
+{"time": "2026-03-15 15:52:48,500", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:52:48,501", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5 (hash: 8175f88d...)"}
+{"time": "2026-03-15 15:52:48,501", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_MR.mq5"}
+{"time": "2026-03-15 15:52:48,501", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 15:52:48,501", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 15:52:48,502", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_MR"}
+{"time": "2026-03-15 15:52:48,502", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 15:52:48,502", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 15:52:48,507", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 15:52:48,507", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 15:52:58,567", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 16:07:49,620", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 16:07:49,624", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 2 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 16:07:49,625", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 3, elapsed 1h 0m)"}
+{"time": "2026-03-15 16:07:49,625", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: IchimokuCloud"}
+{"time": "2026-03-15 16:07:49,653", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 16:07:49,653", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_IC.mq5 (hash: 599f85a4...)"}
+{"time": "2026-03-15 16:07:49,665", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)"}
+{"time": "2026-03-15 16:07:49,665", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 16:07:49,665", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 16:07:49,665", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 16:07:49,667", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 16:07:49,667", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 16:07:49,667", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 16:07:49,668", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_IC"}
+{"time": "2026-03-15 16:07:49,668", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 16:07:49,668", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 16:07:49,672", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 16:07:49,673", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 16:07:59,702", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 16:07:59,733", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 16:22:50,756", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 2 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 16:22:50,761", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 2 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 16:22:50,761", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 3, elapsed 1h 15m)"}
+{"time": "2026-03-15 16:23:00,832", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 16:23:00,863", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 16:23:00,866", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: EXPLORE → CandlePattern (random 20%)"}
+{"time": "2026-03-15 16:23:00,867", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | CandlePattern framework (regime: unknown)"}
+{"time": "2026-03-15 16:23:00,868", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: CandlePattern"}
+{"time": "2026-03-15 16:23:00,887", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 16:23:00,887", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5 (hash: 28963473...)"}
+{"time": "2026-03-15 16:23:00,889", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 16:23:00,890", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 16:23:00,890", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 16:23:00,890", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 16:23:00,890", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 16:23:00,891", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 16:23:00,891", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 16:23:00,891", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 16:23:00,892", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_CP"}
+{"time": "2026-03-15 16:23:00,893", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 16:23:00,893", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 16:23:00,897", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 16:23:00,897", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 16:23:10,911", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 16:38:01,951", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 16:38:01,955", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 3 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 16:38:01,956", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 4, elapsed 1h 30m)"}
+{"time": "2026-03-15 16:38:11,997", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 16:38:12,003", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random TrendFollowing"}
+{"time": "2026-03-15 16:38:12,003", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | TrendFollowing framework (regime: unknown)"}
+{"time": "2026-03-15 16:38:12,004", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: TrendFollowing"}
+{"time": "2026-03-15 16:38:12,005", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random SniperEntry"}
+{"time": "2026-03-15 16:38:12,005", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | SniperEntry framework (regime: unknown)"}
+{"time": "2026-03-15 16:38:12,014", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 16:38:12,014", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5 (hash: a824359d...)"}
+{"time": "2026-03-15 16:38:12,015", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 16:38:12,015", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 16:38:12,015", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] EURUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 16:38:12,017", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000_TF"}
+{"time": "2026-03-15 16:38:12,018", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 16:38:12,018", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 16:38:12,022", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 16:38:12,023", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 16:38:12,051", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 16:38:22,080", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 16:53:13,091", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 16:53:13,097", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle 2 done | Best PF so far: 1.24"}
+{"time": "2026-03-15 16:53:13,097", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle starting (iter 3, elapsed 1h 45m)"}
+{"time": "2026-03-15 16:53:13,098", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: SniperEntry"}
+{"time": "2026-03-15 16:53:13,124", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 16:53:13,124", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5 (hash: 1a940279...)"}
+{"time": "2026-03-15 16:53:13,133", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 16:53:13,134", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 16:53:13,134", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 16:53:13,134", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 16:53:13,134", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 16:53:23,234", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 16:53:23,235", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 16:53:23,236", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 16:53:23,236", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 16:53:23,239", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_SE"}
+{"time": "2026-03-15 16:53:23,240", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 16:53:23,240", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 16:53:23,247", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 16:53:23,248", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 16:53:23,252", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 17:08:24,318", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 17:08:24,323", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 3 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 17:08:24,323", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 4, elapsed 2h 0m)"}
+{"time": "2026-03-15 17:08:24,354", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)"}
+{"time": "2026-03-15 17:08:24,354", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 17:08:24,355", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 17:08:24,355", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 17:08:24,360", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random TrendFollowing"}
+{"time": "2026-03-15 17:08:24,360", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | TrendFollowing framework (regime: unknown)"}
+{"time": "2026-03-15 17:08:24,360", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: TrendFollowing"}
+{"time": "2026-03-15 17:08:24,361", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random Breakout"}
+{"time": "2026-03-15 17:08:24,361", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | Breakout framework (regime: unknown)"}
+{"time": "2026-03-15 17:08:24,367", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 17:08:24,367", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5 (hash: e7b93e5e...)"}
+{"time": "2026-03-15 17:08:24,367", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 17:08:24,367", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 17:08:24,367", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 17:08:24,368", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_TF"}
+{"time": "2026-03-15 17:08:24,368", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 17:08:24,368", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 17:08:24,373", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 17:08:24,373", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 17:08:34,431", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 17:23:25,402", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 17:23:25,407", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 4 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 17:23:25,407", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 5, elapsed 2h 15m)"}
+{"time": "2026-03-15 17:23:25,408", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: Breakout"}
+{"time": "2026-03-15 17:23:25,425", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5"}
+{"time": "2026-03-15 17:23:25,432", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5 (hash: 325fad65...)"}
+{"time": "2026-03-15 17:23:25,442", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 17:23:25,443", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 17:23:25,443", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 17:23:25,443", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 17:23:25,443", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 17:23:25,445", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_BO.mq5"}
+{"time": "2026-03-15 17:23:25,445", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 17:23:25,445", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] EURUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 17:23:25,446", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000_BO"}
+{"time": "2026-03-15 17:23:25,447", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 17:23:25,447", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 17:23:25,452", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 17:23:25,452", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 17:23:35,490", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 17:38:26,538", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 17:38:26,542", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle 3 done | Best PF so far: 1.24"}
+{"time": "2026-03-15 17:38:26,542", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle starting (iter 4, elapsed 2h 30m)"}
+{"time": "2026-03-15 17:38:26,573", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 17:38:26,574", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 17:38:26,574", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 17:38:26,574", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 17:38:26,574", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 17:38:26,580", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random SniperEntry"}
+{"time": "2026-03-15 17:38:26,580", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | SniperEntry framework (regime: unknown)"}
+{"time": "2026-03-15 17:38:26,580", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: SniperEntry"}
+{"time": "2026-03-15 17:38:26,581", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random IchimokuCloud"}
+{"time": "2026-03-15 17:38:26,581", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | IchimokuCloud framework (regime: unknown)"}
+{"time": "2026-03-15 17:38:26,587", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 17:38:26,587", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5 (hash: 3c7c7a2b...)"}
+{"time": "2026-03-15 17:38:26,587", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 17:38:26,587", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 17:38:26,587", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 17:38:26,588", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_SE"}
+{"time": "2026-03-15 17:38:26,588", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 17:38:26,588", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 17:38:26,593", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 17:38:26,593", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 17:38:36,641", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 17:53:27,661", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 17:53:27,667", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 4 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 17:53:27,667", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 5, elapsed 2h 45m)"}
+{"time": "2026-03-15 17:53:27,668", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: IchimokuCloud"}
+{"time": "2026-03-15 17:53:27,697", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 17:53:27,697", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5 (hash: e73c7735...)"}
+{"time": "2026-03-15 17:53:27,706", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)"}
+{"time": "2026-03-15 17:53:27,707", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 17:53:27,707", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 17:53:27,707", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 17:53:27,708", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 17:53:27,708", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 17:53:27,708", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 17:53:27,710", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_IC"}
+{"time": "2026-03-15 17:53:27,710", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 17:53:27,711", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 17:53:27,715", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 17:53:27,716", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 17:53:37,779", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 17:53:37,785", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 18:08:28,851", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 18:08:28,855", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 5 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 18:08:28,855", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 6, elapsed 3h 0m)"}
+{"time": "2026-03-15 18:08:38,910", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 18:08:38,913", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 18:08:38,959", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 18:08:38,960", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 18:08:38,960", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 18:08:38,960", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 18:08:38,960", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 18:08:38,979", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 18:08:38,980", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 18:08:38,980", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 18:08:38,980", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 18:08:38,980", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 18:08:38,984", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random GridTrading"}
+{"time": "2026-03-15 18:08:38,984", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | GridTrading framework (regime: unknown)"}
+{"time": "2026-03-15 18:08:38,984", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: GridTrading"}
+{"time": "2026-03-15 18:08:38,984", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random TrendFollowing"}
+{"time": "2026-03-15 18:08:38,984", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | TrendFollowing framework (regime: unknown)"}
+{"time": "2026-03-15 18:08:38,990", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random IchimokuCloud"}
+{"time": "2026-03-15 18:08:38,990", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | IchimokuCloud framework (regime: unknown)"}
+{"time": "2026-03-15 18:08:38,990", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_GT.mq5"}
+{"time": "2026-03-15 18:08:38,990", "level": "ERROR", "logger": "agents.code_generator", "message": "Generated code for v0.3.0 failed validation: ['No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)']"}
+{"time": "2026-03-15 18:08:38,990", "level": "ERROR", "logger": "agents.orchestrator", "message": "Constraint violation at iteration 1: Generated code violates 1 constraint(s): No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"}
+{"time": "2026-03-15 18:08:38,990", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 2 / 20 ---"}
+{"time": "2026-03-15 18:08:38,991", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: TrendFollowing"}
+{"time": "2026-03-15 18:08:38,995", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 18:08:38,996", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_TF.mq5 (hash: 95aead29...)"}
+{"time": "2026-03-15 18:08:38,996", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 18:08:38,996", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 18:08:38,996", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 18:08:38,996", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_TF"}
+{"time": "2026-03-15 18:08:38,997", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 18:08:38,997", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 18:08:39,001", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 18:08:39,001", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 18:08:49,070", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 18:23:40,073", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 18:23:40,078", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 5 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 18:23:40,078", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 6, elapsed 3h 16m)"}
+{"time": "2026-03-15 18:23:40,079", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: IchimokuCloud"}
+{"time": "2026-03-15 18:23:40,088", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 18:23:40,088", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5 (hash: 6fdc34a4...)"}
+{"time": "2026-03-15 18:23:50,141", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 18:23:50,179", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 18:23:50,186", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_IC.mq5"}
+{"time": "2026-03-15 18:23:50,186", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 18:23:50,186", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 18:23:50,188", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_IC"}
+{"time": "2026-03-15 18:23:50,189", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 18:23:50,189", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 18:23:50,194", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 18:23:50,195", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 18:24:00,291", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 18:38:51,287", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 18:38:51,291", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 6 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 18:38:51,292", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 7, elapsed 3h 31m)"}
+{"time": "2026-03-15 18:38:51,334", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 18:38:51,335", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 18:38:51,335", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 18:38:51,336", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 18:38:51,336", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 18:39:01,413", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 18:39:01,418", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 18:39:01,445", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 18:39:01,446", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 18:39:01,446", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 18:39:01,446", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 18:39:01,446", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 18:39:01,447", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random SniperEntry"}
+{"time": "2026-03-15 18:39:01,447", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | SniperEntry framework (regime: unknown)"}
+{"time": "2026-03-15 18:39:01,447", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: SniperEntry"}
+{"time": "2026-03-15 18:39:01,456", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 18:39:01,456", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_SE.mq5 (hash: 1d094302...)"}
+{"time": "2026-03-15 18:39:01,456", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 18:39:01,456", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 18:39:01,456", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] EURUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 18:39:01,458", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000_SE"}
+{"time": "2026-03-15 18:39:01,458", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 18:39:01,459", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 18:39:01,463", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 18:39:01,464", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 18:54:02,472", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 2 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 18:54:02,477", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle 4 done | Best PF so far: 1.24"}
+{"time": "2026-03-15 18:54:02,477", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] EURUSD: Cycle starting (iter 5, elapsed 3h 46m)"}
+{"time": "2026-03-15 18:54:02,480", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random GridTrading"}
+{"time": "2026-03-15 18:54:02,480", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | GridTrading framework (regime: unknown)"}
+{"time": "2026-03-15 18:54:02,480", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random CandlePattern"}
+{"time": "2026-03-15 18:54:02,480", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: GridTrading"}
+{"time": "2026-03-15 18:54:02,481", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | CandlePattern framework (regime: unknown)"}
+{"time": "2026-03-15 18:54:02,489", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_GT.mq5"}
+{"time": "2026-03-15 18:54:02,490", "level": "ERROR", "logger": "agents.code_generator", "message": "Generated code for v0.3.0 failed validation: ['No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)']"}
+{"time": "2026-03-15 18:54:02,490", "level": "ERROR", "logger": "agents.orchestrator", "message": "Constraint violation at iteration 1: Generated code violates 1 constraint(s): No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"}
+{"time": "2026-03-15 18:54:02,490", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 2 / 20 ---"}
+{"time": "2026-03-15 18:54:02,493", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: CandlePattern"}
+{"time": "2026-03-15 18:54:02,498", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 18:54:02,498", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5 (hash: 1df4b53b...)"}
+{"time": "2026-03-15 18:54:02,498", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_CP.mq5"}
+{"time": "2026-03-15 18:54:02,498", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 18:54:02,498", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 18:54:02,499", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_CP"}
+{"time": "2026-03-15 18:54:02,499", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 18:54:02,499", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 18:54:02,504", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 18:54:02,504", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 18:54:12,583", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}
+{"time": "2026-03-15 19:09:03,510", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 19:09:03,514", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 7 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 19:09:03,514", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 8, elapsed 4h 1m)"}
+{"time": "2026-03-15 19:09:03,553", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)"}
+{"time": "2026-03-15 19:09:03,553", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 19:09:03,553", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 19:09:03,554", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 19:09:03,559", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] GBPUSD: no data yet → random SniperEntry"}
+{"time": "2026-03-15 19:09:03,559", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | GBPUSD H1 H1 R1.0 Cap1000 | SniperEntry framework (regime: unknown)"}
+{"time": "2026-03-15 19:09:03,559", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: SniperEntry"}
+{"time": "2026-03-15 19:09:03,559", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random GridTrading"}
+{"time": "2026-03-15 19:09:03,559", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | GridTrading framework (regime: unknown)"}
+{"time": "2026-03-15 19:09:03,565", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 19:09:03,565", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5 (hash: 36ddcc8b...)"}
+{"time": "2026-03-15 19:09:03,565", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_GBP_H1_R1_Cap1000_SE.mq5"}
+{"time": "2026-03-15 19:09:03,566", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 19:09:03,566", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] GBPUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 19:09:03,566", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_GBP_H1_R1_Cap1000_SE"}
+{"time": "2026-03-15 19:09:03,567", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 19:09:03,567", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 19:09:03,570", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 19:09:03,571", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 19:09:13,569", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 19:24:04,645", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 2 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 19:24:04,649", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle 6 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 19:24:04,650", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] GBPUSD: Cycle starting (iter 7, elapsed 4h 16m)"}
+{"time": "2026-03-15 19:24:04,650", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: GridTrading"}
+{"time": "2026-03-15 19:24:04,678", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_GT.mq5"}
+{"time": "2026-03-15 19:24:04,678", "level": "ERROR", "logger": "agents.code_generator", "message": "Generated code for v0.3.0 failed validation: ['No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)']"}
+{"time": "2026-03-15 19:24:04,691", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for XAUUSD"}
+{"time": "2026-03-15 19:24:04,691", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for XAUUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 19:24:04,691", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 19:24:04,691", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: XAUUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 19:24:04,692", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 19:24:04,693", "level": "ERROR", "logger": "agents.orchestrator", "message": "Constraint violation at iteration 1: Generated code violates 1 constraint(s): No proper percentage-based lot size calculation found. Expected: lot = (balance * risk_percent / 100) / (sl_pips * 10 * tick_value)"}
+{"time": "2026-03-15 19:24:04,693", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 2 / 20 ---"}
+{"time": "2026-03-15 19:24:04,697", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] XAUUSD: no data yet → random TrendFollowing"}
+{"time": "2026-03-15 19:24:04,697", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | XAUUSD H1 H1 R1.0 Cap1000 | TrendFollowing framework (regime: unknown)"}
+{"time": "2026-03-15 19:24:04,698", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: TrendFollowing"}
+{"time": "2026-03-15 19:24:04,698", "level": "INFO", "logger": "core.experience_db", "message": "[Experience] EURUSD: no data yet → random TrendFollowing"}
+{"time": "2026-03-15 19:24:04,698", "level": "INFO", "logger": "agents.orchestrator", "message": "[1/5] Generating v0.3.0 | EURUSD H1 H1 R1.0 Cap1000 | TrendFollowing framework (regime: unknown)"}
+{"time": "2026-03-15 19:24:04,703", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 19:24:04,703", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5 (hash: 9870317f...)"}
+{"time": "2026-03-15 19:24:04,704", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_XAU_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 19:24:04,704", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 19:24:04,704", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] XAUUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 19:24:04,704", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_XAU_H1_R1_Cap1000_TF"}
+{"time": "2026-03-15 19:24:04,705", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 19:24:04,705", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 19:24:04,709", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 19:24:04,709", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 19:24:14,758", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for GBPUSD"}
+{"time": "2026-03-15 19:39:05,778", "level": "ERROR", "logger": "agents.orchestrator", "message": "Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully."}
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 215, in run
+    result = await self._run_one_iteration(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        current_config, iteration, history
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 355, in _run_one_iteration
+    run_result = self.backtest_runner.run(spec)  # Can raise TimeoutError
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 144, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 294, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+{"time": "2026-03-15 19:39:05,782", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle 8 done | Best PF so far: 0.00"}
+{"time": "2026-03-15 19:39:05,783", "level": "INFO", "logger": "agents.multi_symbol_orchestrator", "message": "[🔍 HUNT] XAUUSD: Cycle starting (iter 9, elapsed 4h 31m)"}
+{"time": "2026-03-15 19:39:05,784", "level": "INFO", "logger": "agents.code_generator", "message": "Using framework template: TrendFollowing"}
+{"time": "2026-03-15 19:39:05,812", "level": "INFO", "logger": "agents.code_generator", "message": "Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 19:39:05,812", "level": "INFO", "logger": "agents.code_generator", "message": "Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5 (hash: 52dcbc4e...)"}
+{"time": "2026-03-15 19:39:05,821", "level": "INFO", "logger": "core.champion_manager", "message": "No global champion found for GBPUSD"}
+{"time": "2026-03-15 19:39:05,822", "level": "INFO", "logger": "agents.orchestrator", "message": "Initialized OrchestratorAgent for GBPUSD: global champion PF=0.00 (vnone)"}
+{"time": "2026-03-15 19:39:05,822", "level": "INFO", "logger": "agents.orchestrator", "message": "Framework rotation enabled: TrendFollowing → MeanReversion → Breakout → GridTrading → SniperEntry → CandlePattern → IchimokuCloud"}
+{"time": "2026-03-15 19:39:05,822", "level": "INFO", "logger": "agents.orchestrator", "message": "=== Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 20
+  Symbol: GBPUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE"}
+{"time": "2026-03-15 19:39:05,822", "level": "INFO", "logger": "agents.orchestrator", "message": "
+--- Iteration 1 / 20 ---"}
+{"time": "2026-03-15 19:39:05,824", "level": "INFO", "logger": "agents.orchestrator", "message": "  Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000_TF.mq5"}
+{"time": "2026-03-15 19:39:05,824", "level": "INFO", "logger": "agents.orchestrator", "message": "[2/5] Running backtest..."}
+{"time": "2026-03-15 19:39:05,824", "level": "INFO", "logger": "agents.backtest_runner", "message": "[Backtest Config] EURUSD H1 | Period: 2025-01-01 → 2026-03-12 | Capital: $1000 | Broker: Exness-MT5Trial7"}
+{"time": "2026-03-15 19:39:05,825", "level": "INFO", "logger": "agents.backtest_runner", "message": "Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000_TF"}
+{"time": "2026-03-15 19:39:05,826", "level": "INFO", "logger": "agents.backtest_runner", "message": "Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini"}
+{"time": "2026-03-15 19:39:05,826", "level": "INFO", "logger": "agents.backtest_runner", "message": "Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini"}
+{"time": "2026-03-15 19:39:05,831", "level": "INFO", "logger": "agents.backtest_runner", "message": "MT5 launched, waiting for report..."}
+{"time": "2026-03-15 19:39:05,831", "level": "INFO", "logger": "agents.backtest_runner", "message": "Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)..."}
+{"time": "2026-03-15 19:39:15,987", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for XAUUSD"}
+{"time": "2026-03-15 19:39:15,990", "level": "WARNING", "logger": "agents.signal_agent", "message": "Bridge unavailable — returning UNKNOWN regime for EURUSD"}

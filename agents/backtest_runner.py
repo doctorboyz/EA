@@ -45,6 +45,7 @@ class BacktestSpec:
     initial_deposit: float = 1000.0
     leverage: int = 100
     model: int = 1               # 0=OHLC, 1=1-min bars, 2=real ticks
+    broker_server: str = "Exness-MT5Trial7"  # MT5 broker server name
 
     def __post_init__(self):
         if self.date_from is None:
@@ -82,15 +83,27 @@ class BacktestRunnerAgent:
     - Read report HTML files without any translation
     """
 
-    def __init__(self, config: Optional[dict] = None) -> None:
+    def __init__(self, config: Optional[dict] = None, ollama=None) -> None:
         cfg = config or _load_mt5_config()
         mt5 = cfg.get('mt5', {})
         proj = cfg.get('project', {})
+
+        # CompileErrorAgent: auto-fix MQL5 syntax errors on compile failure
+        self._compile_fixer = None
+        if ollama is not None:
+            try:
+                from agents.compile_error_agent import CompileErrorAgent
+                self._compile_fixer = CompileErrorAgent(ollama=ollama)
+                logger.info("BacktestRunner: CompileErrorAgent ready (auto-fix enabled)")
+            except Exception as exc:
+                logger.warning("BacktestRunner: CompileErrorAgent init failed: %s", exc)
 
         self.mode: str = mt5.get('mode', 'wine')
         self.experts_path: str = mt5.get('experts_path', '')
         self.reports_path: str = mt5.get('reports_path', '')
         self.mt5_exe: str = mt5.get('mt5_exe', '')
+        self.wine_bin: str = mt5.get('wine_bin', 'wine')
+        self.broker_server: str = mt5.get('broker_server', 'Exness-MT5Trial7')
         self.backtest_timeout: int = mt5.get('backtest_timeout_seconds', 600)
         self.poll_interval: int = mt5.get('report_poll_interval_seconds', 5)
         self.report_wait_timeout: int = mt5.get('report_wait_timeout_seconds', 300)
@@ -115,11 +128,19 @@ class BacktestRunnerAgent:
         if not os.path.exists(spec.mq5_file_path):
             raise FileNotFoundError(f"MQ5 file not found: {spec.mq5_file_path}")
 
+        # Log backtest configuration for debugging
+        logger.info("[Backtest Config] %s %s | Period: %s → %s | Capital: $%.0f | Broker: %s",
+                   spec.symbol, spec.timeframe, spec.date_from, spec.date_to,
+                   spec.initial_deposit, spec.broker_server)
+
         start_time = time.time()
 
         # Step 1: Copy .mq5 to MT5 experts folder
         ea_name = self._copy_ea_to_experts(spec.mq5_file_path)
         logger.info("Copied EA to experts: %s", ea_name)
+
+        # Step 1b: Compile .mq5 → .ex5 (required for MT5 Strategy Tester)
+        self._compile_ea(ea_name)
 
         # Step 2: Write tester.ini
         ini_path = self._write_tester_ini(spec, ea_name)
@@ -128,7 +149,7 @@ class BacktestRunnerAgent:
         # Step 3: Record files already in reports_path before launch
         existing_reports = self._snapshot_reports()
 
-        # Step 4: Launch MT5
+        # Step 4: Launch MT5 tester
         self._launch_mt5(ini_path)
         logger.info("MT5 launched, waiting for report...")
 
@@ -161,6 +182,104 @@ class BacktestRunnerAgent:
         return os.path.splitext(filename)[0]  # Return name without extension
 
     # ------------------------------------------------------------------
+    # Step 1b: Compile .mq5 → .ex5
+    # ------------------------------------------------------------------
+
+    def _compile_ea(self, ea_name: str) -> None:
+        """
+        Compile the .mq5 file to .ex5 using terminal64.exe /compile.
+        MT5 Strategy Tester requires compiled .ex5 — it cannot run .mq5 source.
+
+        On compile failure, calls CompileErrorAgent to auto-fix syntax errors
+        and retries up to MAX_COMPILE_RETRIES times.
+        """
+        if not self.experts_path or not self.mt5_exe:
+            raise RuntimeError("mt5.experts_path or mt5.mt5_exe not configured")
+
+        mq5_path = os.path.join(self.experts_path, f"{ea_name}.mq5")
+        ex5_path = os.path.join(self.experts_path, f"{ea_name}.ex5")
+
+        # Already compiled and up-to-date — skip
+        if os.path.exists(ex5_path):
+            mq5_mtime = os.path.getmtime(mq5_path)
+            ex5_mtime = os.path.getmtime(ex5_path)
+            if ex5_mtime >= mq5_mtime:
+                logger.info("EA already compiled (up-to-date): %s.ex5", ea_name)
+                return
+
+        max_compile_retries = 3 if self._compile_fixer else 1
+
+        for compile_attempt in range(1, max_compile_retries + 1):
+            # Kill any lingering terminal64.exe (one Wine instance at a time)
+            subprocess.run(["pkill", "-f", "terminal64"], capture_output=True)
+            time.sleep(2)
+
+            # Remove stale .ex5 so we can detect fresh compile success
+            if os.path.exists(ex5_path):
+                os.remove(ex5_path)
+
+            wine_mq5 = "Z:" + mq5_path.replace("/", "\\")
+            cmd = [self.wine_bin, self.mt5_exe, f"/compile:{wine_mq5}"]
+            logger.info("Compiling EA: %s (attempt %d/%d)", ea_name, compile_attempt, max_compile_retries)
+
+            try:
+                proc = subprocess.Popen(
+                    cmd,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
+            except FileNotFoundError as e:
+                raise RuntimeError(f"Wine not found: {self.wine_bin}") from e
+
+            # Poll for .ex5 to appear (max 90 seconds)
+            compile_timeout = 90
+            deadline = time.time() + compile_timeout
+            success = False
+            while time.time() < deadline:
+                time.sleep(2)
+                if os.path.exists(ex5_path):
+                    success = True
+                    break
+
+            proc.kill()
+            stdout_text = ""
+            try:
+                stdout_raw, stderr_raw = proc.communicate(timeout=3)
+                stdout_text = (stdout_raw or b"").decode("utf-8", errors="replace")
+                stdout_text += (stderr_raw or b"").decode("utf-8", errors="replace")
+            except Exception:
+                pass
+
+            if success:
+                logger.info("Compiled successfully: %s.ex5", ea_name)
+                return
+
+            # Compile failed — log what we got
+            logger.warning(
+                "Compile attempt %d/%d FAILED for %s.mq5 (timeout=%ds)",
+                compile_attempt, max_compile_retries, ea_name, compile_timeout,
+            )
+            if stdout_text:
+                logger.warning("Compiler output:\n%s", stdout_text[:1000])
+
+            # Try auto-fix if we have the fixer and retries remain
+            if self._compile_fixer and compile_attempt < max_compile_retries:
+                logger.info("Calling CompileErrorAgent to fix %s.mq5 ...", ea_name)
+                fixed = self._compile_fixer.fix(mq5_path, error_output=stdout_text)
+                if fixed:
+                    logger.info("CompileErrorAgent applied a fix — retrying compile")
+                    # Copy fixed .mq5 back to experts path (it IS already there, but re-copy to be sure)
+                    continue
+                else:
+                    logger.warning("CompileErrorAgent could not fix errors — stopping retries")
+                    break
+
+        raise RuntimeError(
+            f"Compilation failed after {max_compile_retries} attempt(s) for {ea_name}.mq5 — "
+            "check logs for MQL5 syntax errors"
+        )
+
+    # ------------------------------------------------------------------
     # Step 2: Write tester.ini
     # ------------------------------------------------------------------
 
@@ -187,7 +306,8 @@ class BacktestRunnerAgent:
             "OptimizationCriterion=0\n"
             f"Report={report_name}\n"
             "ReplaceReport=true\n"
-            "ShutdownTerminal=true\n"  # Close MT5 after backtest
+            "ShutdownTerminal=true\n"
+            f"Server={spec.broker_server}\n"
         )
 
         # Write ini to same folder as mt5_exe
@@ -207,7 +327,7 @@ class BacktestRunnerAgent:
             return set()
         return {
             f for f in os.listdir(self.reports_path)
-            if f.lower().endswith('.html')
+            if f.lower().endswith('.html') or f.lower().endswith('.htm')
         }
 
     # ------------------------------------------------------------------
@@ -215,7 +335,7 @@ class BacktestRunnerAgent:
     # ------------------------------------------------------------------
 
     def _launch_mt5(self, ini_path: str) -> None:
-        """Launch MT5 terminal via Wine subprocess."""
+        """Launch MT5 tester via Wine subprocess."""
         if not self.mt5_exe:
             raise RuntimeError("mt5.mt5_exe not configured in system.yaml")
         if not os.path.exists(self.mt5_exe):
@@ -224,19 +344,23 @@ class BacktestRunnerAgent:
                 "Check mt5.mt5_exe in config/system.yaml"
             )
 
-        cmd = ["wine", self.mt5_exe, f"/config:{ini_path}"]
-        logger.info("Launching MT5: %s", " ".join(cmd))
+        # Use terminal64.exe /config: to run the Strategy Tester automatically.
+        # This works because we pre-compiled the .ex5 in _compile_ea().
+        # terminal64.exe reads tester.ini, runs the backtest, writes report, exits.
+        wine_ini_path = "Z:" + ini_path.replace("/", "\\")
+        cmd = [self.wine_bin, self.mt5_exe, f"/config:{wine_ini_path}"]
+        logger.info("Launching MT5 tester: %s", " ".join(cmd))
 
         try:
             subprocess.Popen(
                 cmd,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
-                # Don't wait — MT5 writes report then exits (ShutdownTerminal=true)
+                # Don't wait — metatester64.exe runs tester then exits
             )
         except FileNotFoundError as e:
             raise RuntimeError(
-                f"'wine' command not found. Install Wine/Whisky to run MT5 on macOS. "
+                f"Wine not found at '{self.wine_bin}'. Check mt5.wine_bin in system.yaml. "
                 f"Original error: {e}"
             ) from e
 
@@ -264,7 +388,7 @@ class BacktestRunnerAgent:
             if os.path.exists(self.reports_path):
                 current = {
                     f for f in os.listdir(self.reports_path)
-                    if f.lower().endswith('.html')
+                    if f.lower().endswith('.html') or f.lower().endswith('.htm')
                 }
                 new_files = current - existing_reports
                 if new_files:

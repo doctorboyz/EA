@@ -1,0 +1,40 @@
+2026-03-15 13:32:12,646 [INFO] root: Logging to: logs/orchestrator_20260315_133212.log
+2026-03-15 13:32:12,694 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"
+2026-03-15 13:32:12,783 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 13:32:12,784 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 10
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: LIVE
+2026-03-15 13:32:12,784 [INFO] agents.orchestrator: 
+--- Iteration 1 / 10 ---
+2026-03-15 13:32:12,785 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 13:32:12,792 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5
+2026-03-15 13:32:12,792 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5 (hash: 07492fde...)
+2026-03-15 13:32:12,792 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_0_EUR_H1_R1_Cap1000.mq5
+2026-03-15 13:32:12,792 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 13:32:12,792 [INFO] agents.backtest_runner: Copied EA to experts: AureusV0_3_0_EUR_H1_R1_Cap1000
+2026-03-15 13:32:12,793 [INFO] agents.backtest_runner: Wrote tester.ini: /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/tester.ini
+2026-03-15 13:32:12,793 [INFO] agents.backtest_runner: Launching MT5: /Applications/MetaTrader 5.app/Contents/SharedSupport/wine/bin/wine64 /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/terminal64.exe /config:Z:\Users\doctorboyz\Library\Application Support\net.metaquotes.wine.metatrader5\drive_c\Program Files\MetaTrader 5\tester.ini
+2026-03-15 13:32:12,796 [INFO] agents.backtest_runner: MT5 launched, waiting for report...
+2026-03-15 13:32:12,796 [INFO] agents.backtest_runner: Polling /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ for new report (timeout: 900s)...
+2026-03-15 13:47:13,421 [ERROR] agents.orchestrator: Iteration 1 failed: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.
+Traceback (most recent call last):
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 173, in run
+    "  Mode: %s",
+    
+    current_config.version,
+    ^^^^^^^^^^^^^^^^^^^^^^^
+    self.max_iterations,
+    ^^^^^
+  File "/Users/doctorboyz/EA/agents/orchestrator.py", line 270, in _run_one_iteration
+    mq5_file_path=generated.file_path,
+                 ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 139, in run
+    report_path = self._wait_for_report(existing_reports)
+  File "/Users/doctorboyz/EA/agents/backtest_runner.py", line 289, in _wait_for_report
+    raise TimeoutError(
+    ...<3 lines>...
+    )
+TimeoutError: No new backtest report appeared in /Users/doctorboyz/Library/Application Support/net.metaquotes.wine.metatrader5/drive_c/Program Files/MetaTrader 5/Tester/reports/ within 900s. Check MT5 is running and strategy compiled successfully.

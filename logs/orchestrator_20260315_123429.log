@@ -1,0 +1,2 @@
+2026-03-15 12:34:29,854 [INFO] root: Logging to: logs/orchestrator_20260315_123429.log
+2026-03-15 12:34:29,901 [INFO] httpx: HTTP Request: GET http://localhost:11434/api/tags "HTTP/1.1 200 OK"

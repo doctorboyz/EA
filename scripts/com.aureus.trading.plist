@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+  <!-- ─── Identity ─────────────────────────────────────────────────────── -->
+  <key>Label</key>
+  <string>com.aureus.trading</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/doctorboyz/EA/venv/bin/python</string>
+    <string>/Users/doctorboyz/EA/scripts/run_multi.py</string>
+    <string>--symbols</string>
+    <string>XAUUSD</string>
+    <string>--continuous</string>
+    <string>--iterations</string>
+    <string>30</string>
+    <string>--restart-delay</string>
+    <string>300</string>
+  </array>
+
+  <!-- ─── Working directory ────────────────────────────────────────────── -->
+  <key>WorkingDirectory</key>
+  <string>/Users/doctorboyz/EA</string>
+
+  <!-- ─── Logging ──────────────────────────────────────────────────────── -->
+  <key>StandardOutPath</key>
+  <string>/Users/doctorboyz/EA/logs/launchagent_stdout.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/Users/doctorboyz/EA/logs/launchagent_stderr.log</string>
+
+  <!-- ─── Auto-start ────────────────────────────────────────────────────── -->
+  <!-- Start when user logs in -->
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- Restart automatically if it crashes -->
+  <key>KeepAlive</key>
+  <true/>
+
+  <!-- ─── Resource limits ───────────────────────────────────────────────── -->
+  <!-- Throttle restart: wait 60s before restarting on crash -->
+  <key>ThrottleInterval</key>
+  <integer>60</integer>
+
+  <!-- ─── Environment ───────────────────────────────────────────────────── -->
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/Users/doctorboyz/EA/venv/bin:/usr/local/bin:/usr/bin:/bin</string>
+    <key>PYTHONUNBUFFERED</key>
+    <string>1</string>
+  </dict>
+
+</dict>
+</plist>

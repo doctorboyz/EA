@@ -84,7 +84,16 @@ class OllamaClient:
                 resp = client.post(f"{self.base_url}/api/generate", json=payload)
                 resp.raise_for_status()
                 data = resp.json()
-                return data.get("response", "")
+                response = data.get("response", "")
+                # qwen3 thinking models put JSON in "thinking" when format=json is set
+                # and response is empty — extract from thinking field as fallback
+                if not response.strip() and format_json and data.get("thinking"):
+                    thinking = data["thinking"]
+                    import re as _re
+                    m = _re.search(r"(\{.*\})", thinking, _re.DOTALL)
+                    if m:
+                        response = m.group(1)
+                return response
         except httpx.TimeoutException as e:
             raise OllamaError(f"Ollama timeout after {self.timeout_seconds}s: {e}") from e
         except httpx.HTTPStatusError as e:
@@ -138,18 +147,30 @@ class OllamaClient:
         Generate and parse JSON response.
         Raises OllamaError if parsing fails after retries.
         """
-        raw = self.generate(model=model, prompt=prompt, system=system, format_json=True)
+        # Append /no_think to disable thinking mode on qwen3.x models
+        # (thinking models put output in "thinking" field when format=json, leaving response empty)
+        prompt_no_think = prompt + "\n/no_think"
+        raw = self.generate(model=model, prompt=prompt_no_think, system=system, format_json=True)
+        import re
+        # Strip <think>...</think> blocks (qwen3.5 thinking mode)
+        cleaned = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL).strip()
         try:
-            return json.loads(raw)
-        except json.JSONDecodeError as e:
-            # Try to extract JSON block from markdown fences
-            import re
-            match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+            return json.loads(cleaned)
+        except json.JSONDecodeError:
+            # Try JSON inside markdown fences
+            match = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", cleaned, re.DOTALL)
             if match:
                 return json.loads(match.group(1))
+            # Try first { ... } block in the cleaned text
+            match = re.search(r"(\{.*\})", cleaned, re.DOTALL)
+            if match:
+                try:
+                    return json.loads(match.group(1))
+                except json.JSONDecodeError:
+                    pass
             raise OllamaError(
                 f"Ollama returned non-JSON response: {raw[:200]}..."
-            ) from e
+            )
 
     def analyze(self, prompt: str, system: Optional[str] = None) -> dict:
         """Call llama3.2:3b for analysis tasks. Returns JSON dict."""

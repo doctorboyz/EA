@@ -1,0 +1,11 @@
+{
+  "version": "0.3.8",
+  "promoted_at": "2026-03-16T05:17:59.858400",
+  "profit_factor": 3.03,
+  "max_drawdown_pct": 33.6,
+  "recovery_factor": 2.23,
+  "avg_win_loss_ratio": 4.57516339869281,
+  "meets_all_targets": false,
+  "source_file": "/Users/doctorboyz/EA/agents/../strategies/generated/AureusV0_3_8_EUR_H1_R0_Cap1000_TF.mq5",
+  "code_hash": "a654382f6dd45198a5aee39fb81d5cb69ed470a3663259be4c31f90acf8ee351"
+}

@@ -123,8 +123,10 @@ class ConstraintValidator:
 
         # Check for proper lot size calculation
         lot_calc_patterns = [
-            r"lot\s*=.*balance.*risk",
-            r"lot_size.*=.*balance.*risk",
+            r"lot\s*=.*balance.*risk",          # lot = (balance * risk ...) in one line
+            r"lot_size.*=.*balance.*risk",       # lot_size = ...
+            r"CalculateLotSize\s*\(",            # helper function (templates use this)
+            r"risk_usd\s*=.*balance.*risk",      # risk_usd = balance * risk_percent / 100
         ]
         has_proper_lot_calc = any(
             re.search(p, code, re.IGNORECASE) for p in lot_calc_patterns

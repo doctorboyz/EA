@@ -30,6 +30,7 @@ class StrategyConfig(BaseModel):
     name: str = Field(default="AureusV3")
     symbol: str = Field(default="EURUSD", pattern="^[A-Z]{6}$")
     timeframe: str = Field(default="H1")
+    initial_capital: float = Field(default=1000.0, ge=100.0, le=100000.0)  # Account size for backtesting
     magic_number: int = Field(default=20260400, ge=1, le=2147483647)
 
     # Risk Management - ALWAYS percentage, NEVER fixed USD (V4 failure guard)
@@ -190,15 +191,29 @@ class BacktestResult(BaseModel):
     sharpe_ratio: float
     margin_level_min_pct: float
 
-    # Derived flags
+    # Derived flags (legacy — kept for backwards compatibility)
     meets_pf_target: bool = False  # PF > 1.5
     meets_dd_target: bool = False  # DD < 15%
     meets_rf_target: bool = False  # RF > 3.0
     meets_rr_target: bool = False  # Win/Loss > 2.0
     meets_all_targets: bool = False
 
-    def check_targets(self) -> None:
-        """Evaluate against target metrics from AUREUS_INSPECTION_GUIDELINE.md"""
+    # Tiered targets (new)
+    meets_gate: bool = False       # PF > 1.0, DD < 40%, RF > 0.5, W/L > 1.0
+    meets_champion: bool = False   # PF > 1.3, DD < 30%, RF > 1.0, W/L > 1.5
+    meets_gold: bool = False       # PF > 1.8, DD < 20%, RF > 2.0, W/L > 2.0
+
+    def check_targets(self, tier_config: dict = None) -> None:
+        """Evaluate against tiered metrics. If tier_config provided, use it; else use XAUUSD defaults."""
+        if tier_config is None:
+            # Default XAUUSD tiered targets
+            tier_config = {
+                'gate': {'pf': 1.0, 'dd': 40.0, 'rf': 0.5, 'wl': 1.0},
+                'champion': {'pf': 1.3, 'dd': 30.0, 'rf': 1.0, 'wl': 1.5},
+                'gold': {'pf': 1.8, 'dd': 20.0, 'rf': 2.0, 'wl': 2.0},
+            }
+
+        # Legacy targets (still used in old code paths)
         self.meets_pf_target = self.profit_factor > 1.5
         self.meets_dd_target = self.max_drawdown_pct < 15.0
         self.meets_rf_target = self.recovery_factor > 3.0
@@ -208,6 +223,32 @@ class BacktestResult(BaseModel):
             self.meets_dd_target and
             self.meets_rf_target and
             self.meets_rr_target
+        )
+
+        # Tiered targets
+        gate = tier_config.get('gate', {})
+        champion = tier_config.get('champion', {})
+        gold = tier_config.get('gold', {})
+
+        self.meets_gate = (
+            self.profit_factor > gate.get('pf', 1.0) and
+            self.max_drawdown_pct < gate.get('dd', 40.0) and
+            self.recovery_factor > gate.get('rf', 0.5) and
+            self.avg_win_loss_ratio > gate.get('wl', 1.0)
+        )
+
+        self.meets_champion = (
+            self.profit_factor > champion.get('pf', 1.3) and
+            self.max_drawdown_pct < champion.get('dd', 30.0) and
+            self.recovery_factor > champion.get('rf', 1.0) and
+            self.avg_win_loss_ratio > champion.get('wl', 1.5)
+        )
+
+        self.meets_gold = (
+            self.profit_factor > gold.get('pf', 1.8) and
+            self.max_drawdown_pct < gold.get('dd', 20.0) and
+            self.recovery_factor > gold.get('rf', 2.0) and
+            self.avg_win_loss_ratio > gold.get('wl', 2.0)
         )
 
 

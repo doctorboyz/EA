@@ -1,0 +1,26 @@
+2026-03-15 12:22:41,203 [INFO] root: Logging to: logs/orchestrator_20260315_122241.log
+2026-03-15 12:22:41,295 [INFO] agents.orchestrator: Initialized OrchestratorAgent for EURUSD: global champion PF=1.24 (v0.3.0)
+2026-03-15 12:22:41,296 [INFO] agents.orchestrator: === Aureus Improvement Loop ===
+  Starting version: 0.3.0
+  Max iterations: 1
+  Symbol: EURUSD H1
+  Period: 2025-01-01 → 2026-03-12
+  Mode: DRY RUN
+2026-03-15 12:22:41,296 [INFO] agents.orchestrator: 
+--- Iteration 1 / 1 ---
+2026-03-15 12:22:41,296 [INFO] agents.orchestrator: [1/5] Generating MQL5 code for v0.3.0...
+2026-03-15 12:22:41,303 [INFO] agents.code_generator: Wrote generated EA: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:22:41,303 [INFO] agents.code_generator: Generated valid EA v0.3.0 → /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5 (hash: 07492fde...)
+2026-03-15 12:22:41,303 [INFO] agents.orchestrator:   Generated: /Users/doctorboyz/EA/agents/../strategies/generated/AureusV3_AI_v0_3_0.mq5
+2026-03-15 12:22:41,303 [INFO] agents.orchestrator: [2/5] Running backtest...
+2026-03-15 12:22:41,303 [INFO] agents.backtest_runner: DRY RUN: using fixture /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html
+2026-03-15 12:22:41,303 [INFO] agents.orchestrator:   Report: /Users/doctorboyz/EA/tests/fixtures/V3-sample-report.html (0.0s)
+2026-03-15 12:22:41,303 [INFO] agents.orchestrator: [3/5] Parsing report...
+2026-03-15 12:22:41,342 [INFO] agents.orchestrator:   Metrics: ✗PF=1.24(tgt>1.5)  ✓DD=9.33(tgt<15.0)  ✗RF=0.77(tgt>3.0)  ✗W/L=1.63(tgt>2.0) | Trades=74
+2026-03-15 12:22:41,453 [INFO] agents.orchestrator: [4/5] Analyzing result...
+2026-03-15 12:23:48,381 [INFO] httpx: HTTP Request: POST http://localhost:11434/api/generate "HTTP/1.1 200 OK"
+2026-03-15 12:23:48,383 [WARNING] agents.result_analyzer: Ollama unavailable, using rule-based analysis only: Ollama returned non-JSON response: ...
+2026-03-15 12:23:48,400 [INFO] agents.orchestrator:   Summary: Rule-based analysis: 3 metric(s) failing. LLM analysis unavailable.
+2026-03-15 12:23:48,401 [INFO] agents.orchestrator: [5/5] Generating improved config...
+2026-03-15 12:23:48,401 [INFO] agents.strategy_improver: Improved config v0.3.0 → v0.3.1: 2 changes
+2026-03-15 12:23:48,402 [INFO] agents.orchestrator:   v0.3.0 → v0.3.1  changes: ['take_profit_pips', 'breakeven_pips']

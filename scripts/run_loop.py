@@ -1,19 +1,30 @@
 """
-run_loop.py — Entry point for the Aureus AI improvement loop.
+run_loop.py — Single-symbol improvement loop (XAUUSD focus).
 
-Usage:
-    python scripts/run_loop.py                        # Run with defaults (10 iterations, live MT5)
-    python scripts/run_loop.py --iterations 5        # 5 iterations
-    python scripts/run_loop.py --dry-run             # Use V3 fixture (no MT5 needed)
-    python scripts/run_loop.py --no-llm              # Rule-based only (no Ollama)
-    python scripts/run_loop.py --check               # Health check only
+━━━ USAGE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Pre-flight checklist:
-    1. ollama serve                  (Ollama must be running)
-    2. ollama pull llama3.2:3b       (analysis model)
-    3. ollama pull qwen2.5-coder:7b  (code gen model, optional without --no-llm)
-    4. createdb aureus + alembic upgrade head   (PostgreSQL must be ready)
-    5. MT5 installed via Wine/Whisky (not needed for --dry-run)
+    # Health check only
+    python scripts/run_loop.py --check
+
+    # XAUUSD live run — 20 iterations with XAUBreakout framework
+    python scripts/run_loop.py --iterations 20
+
+    # Dry run (no MT5 needed — uses V3 fixture)
+    python scripts/run_loop.py --dry-run --iterations 5
+
+    # Rule-based only (no Ollama)
+    python scripts/run_loop.py --no-llm --iterations 10
+
+    NOTE: For multi-symbol / champion hunt, use run_multi.py instead:
+    python scripts/run_multi.py --symbols XAUUSD --until-champion --iterations 30
+
+━━━ PRE-FLIGHT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    1. ollama serve
+    2. ollama pull qwen2.5-coder:14b   (code gen model)
+    3. ollama pull qwen3.5:9b          (analysis model)
+    4. createdb aureus && alembic upgrade head
+    5. MetaTrader 5 via Whisky/Wine installed  (not needed for --dry-run)
 """
 
 import argparse
@@ -29,6 +40,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.ollama_client import OllamaClient
 from agents.orchestrator import OrchestratorAgent
+from agents.daddy_agent import DaddyAgent
 
 
 # ---------------------------------------------------------------------------
@@ -54,65 +66,6 @@ def setup_logging(level: str = "INFO") -> None:
 # Pre-flight checks
 # ---------------------------------------------------------------------------
 
-def check_ollama(no_llm: bool) -> bool:
-    """Verify Ollama is running and required models are available."""
-    if no_llm:
-        print("  [SKIP] Ollama check (--no-llm mode)")
-        return True
-
-    client = OllamaClient()
-    health = client.health_check()
-
-    if not health["ok"]:
-        missing = health.get("missing", [])
-        error = health.get("error", "")
-        print(f"  [FAIL] Ollama: {error}")
-        if missing:
-            print(f"         Missing models: {missing}")
-            print(f"         Run: ollama pull {' '.join(missing)}")
-        return False
-
-    print(f"  [ OK ] Ollama: {len(health['models'])} models available")
-    for m in health["models"]:
-        print(f"         - {m}")
-    return True
-
-
-def check_database() -> bool:
-    """Verify PostgreSQL connection (basic check)."""
-    try:
-        import asyncpg
-        import yaml
-
-        with open("config/system.yaml") as f:
-            cfg = yaml.safe_load(f)
-        url = cfg["database"]["url"]
-        # Quick async connect test
-        async def _test():
-            conn = await asyncpg.connect(url)
-            await conn.close()
-        asyncio.run(_test())
-        print("  [ OK ] PostgreSQL connected")
-        return True
-    except ImportError:
-        print("  [WARN] asyncpg not installed — database saves will be skipped")
-        return True  # Non-fatal
-    except Exception as e:
-        print(f"  [FAIL] PostgreSQL: {e}")
-        print("         Run: createdb aureus && alembic upgrade head")
-        return False
-
-
-def run_health_check(no_llm: bool) -> bool:
-    """Run all pre-flight checks. Returns True if all pass."""
-    print("\n=== Aureus AI Pre-flight Check ===\n")
-    results = [
-        check_ollama(no_llm),
-        check_database(),
-    ]
-    ok = all(results)
-    print(f"\n{'✓ All checks passed' if ok else '✗ Some checks failed — fix before running loop'}\n")
-    return ok
 
 
 # ---------------------------------------------------------------------------
@@ -174,14 +127,15 @@ async def main_async(args: argparse.Namespace) -> int:
     print(" AUREUS AI TRADING BOT — Improvement Loop")
     print("=" * 60)
 
-    # Health check
-    if args.check or not args.dry_run:
-        ok = run_health_check(no_llm=args.no_llm)
-        if args.check:
-            return 0 if ok else 1
-        if not ok and not args.dry_run:
-            print("Aborting: pre-flight checks failed. Use --dry-run to bypass.")
-            return 1
+    # Health check — DaddyAgent auto-fixes what it can, then reports
+    daddy = DaddyAgent()
+    report = daddy.prepare(auto_fix=True)
+    print(report.summary())
+    if args.check:
+        return 0 if report.all_ok else 1
+    if not report.all_ok and not args.dry_run:
+        print("Aborting: CRITICAL environment checks failed. Use --dry-run to bypass.")
+        return 1
 
     # Resolve fixture for dry-run
     fixture_path = args.fixture
@@ -196,7 +150,7 @@ async def main_async(args: argparse.Namespace) -> int:
 
     print(f"\nMode:          {'DRY RUN (fixture)' if args.dry_run else 'LIVE (MT5)'}")
     print(f"Iterations:    {args.iterations}")
-    print(f"LLM:           {'OFF (rule-based only)' if args.no_llm else 'ON (llama3.2:3b)'}")
+    print(f"LLM:           {'OFF (rule-based only)' if args.no_llm else 'ON (qwen2.5-coder:14b / qwen3.5:9b)'}")
     if args.dry_run:
         print(f"Fixture:       {fixture_path}")
     print()

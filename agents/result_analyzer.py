@@ -31,11 +31,18 @@ def _load_system_prompt() -> str:
 # Target definitions (from AUREUS_INSPECTION_GUIDELINE.md)
 # ---------------------------------------------------------------------------
 
+# Tiered targets for XAUUSD champion hunting
+# Gate = minimum to save, Champion = promote + walk-forward, Gold = production
+TARGETS_GATE     = {"profit_factor": 1.0,  "max_drawdown_pct": 40.0, "recovery_factor": 0.5,  "avg_win_loss_ratio": 1.0}
+TARGETS_CHAMPION = {"profit_factor": 1.3,  "max_drawdown_pct": 30.0, "recovery_factor": 1.0,  "avg_win_loss_ratio": 1.5}
+TARGETS_GOLD     = {"profit_factor": 1.8,  "max_drawdown_pct": 20.0, "recovery_factor": 2.0,  "avg_win_loss_ratio": 2.0}
+
+# Active targets: Analyzer uses Champion tier to identify weaknesses
 TARGETS = {
-    "profit_factor":     {"target": 1.5,  "direction": "above", "label": "Profit Factor"},
-    "max_drawdown_pct":  {"target": 15.0, "direction": "below", "label": "Max Drawdown %"},
-    "recovery_factor":   {"target": 3.0,  "direction": "above", "label": "Recovery Factor"},
-    "avg_win_loss_ratio":{"target": 2.0,  "direction": "above", "label": "Win/Loss Ratio"},
+    "profit_factor":     {"target": 1.3,  "direction": "above", "label": "Profit Factor"},
+    "max_drawdown_pct":  {"target": 30.0, "direction": "below", "label": "Max Drawdown %"},
+    "recovery_factor":   {"target": 1.0,  "direction": "above", "label": "Recovery Factor"},
+    "avg_win_loss_ratio":{"target": 1.5,  "direction": "above", "label": "Win/Loss Ratio"},
 }
 
 
@@ -54,11 +61,12 @@ def _build_weaknesses(result: BacktestResult) -> list[Weakness]:
     """Rule-based weakness detection — no LLM needed for this part."""
     weaknesses = []
 
+    # Use Champion-tier targets for weakness detection (XAUUSD)
     checks = [
-        ("profit_factor",      result.profit_factor,      1.5,  "above"),
-        ("max_drawdown_pct",   result.max_drawdown_pct,   15.0, "below"),
-        ("recovery_factor",    result.recovery_factor,    3.0,  "above"),
-        ("avg_win_loss_ratio", result.avg_win_loss_ratio, 2.0,  "above"),
+        ("profit_factor",      result.profit_factor,      TARGETS_CHAMPION["profit_factor"],      "above"),
+        ("max_drawdown_pct",   result.max_drawdown_pct,   TARGETS_CHAMPION["max_drawdown_pct"],   "below"),
+        ("recovery_factor",    result.recovery_factor,    TARGETS_CHAMPION["recovery_factor"],    "above"),
+        ("avg_win_loss_ratio", result.avg_win_loss_ratio, TARGETS_CHAMPION["avg_win_loss_ratio"], "above"),
     ]
 
     for metric, value, target, direction in checks:
